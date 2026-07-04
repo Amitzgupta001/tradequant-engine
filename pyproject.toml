@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "tradequant-engine"
+version = "0.1.0"
+description = "AI-powered quantitative trading platform for Indian markets"
+authors = ["Amitzgupta001"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+uvicorn = { extras = ["standard"], version = "^0.32.0" }
+pydantic = "^2.10.0"
+pydantic-settings = "^2.6.0"
+dhanhq = "^2.2.0"
+python-dotenv = "^1.0.0"
+loguru = "^0.7.3"
+lightgbm = "^4.5.0"
+pandas = "^2.2.0"
+scikit-learn = "^1.5.0"
+joblib = "^1.4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.24.0"
+httpx = ">=0.27.0,<0.28.0"
+pytest-mock = "^3.14.0"
+
+[tool.poetry.scripts]
+serve = "uvicorn app.api.main:create_app --factory --reload --host 0.0.0.0 --port 8000"
+tradequant = "app.cli.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

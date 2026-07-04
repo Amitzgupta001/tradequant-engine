@@ -1,0 +1,2336 @@
+{
+  "id": "nifty500",
+  "name": "Nifty 500",
+  "instruments": [
+    {
+      "symbol": "3MINDIA",
+      "trading_symbol": "3MINDIA",
+      "security_id": "474"
+    },
+    {
+      "symbol": "AAVAS",
+      "trading_symbol": "AAVAS",
+      "security_id": "5385"
+    },
+    {
+      "symbol": "ABB",
+      "trading_symbol": "ABB",
+      "security_id": "13"
+    },
+    {
+      "symbol": "ABCAPITAL",
+      "trading_symbol": "ABCAPITAL",
+      "security_id": "21614"
+    },
+    {
+      "symbol": "ABFRL",
+      "trading_symbol": "ABFRL",
+      "security_id": "30108"
+    },
+    {
+      "symbol": "ACC",
+      "trading_symbol": "ACC",
+      "security_id": "22"
+    },
+    {
+      "symbol": "ADANIGREEN",
+      "trading_symbol": "ADANIGREEN",
+      "security_id": "3563"
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "trading_symbol": "ADANIPORTS",
+      "security_id": "15083"
+    },
+    {
+      "symbol": "ADANIPOWER",
+      "trading_symbol": "ADANIPOWER",
+      "security_id": "17388"
+    },
+    {
+      "symbol": "ADANITRANS",
+      "trading_symbol": "ADANIENSOL",
+      "security_id": "10217"
+    },
+    {
+      "symbol": "ADVENZYMES",
+      "trading_symbol": "ADVENZYMES",
+      "security_id": "18039"
+    },
+    {
+      "symbol": "AEGISCHEM",
+      "trading_symbol": "AEGISLOG",
+      "security_id": "40"
+    },
+    {
+      "symbol": "AIAENG",
+      "trading_symbol": "AIAENG",
+      "security_id": "13086"
+    },
+    {
+      "symbol": "AJANTPHARM",
+      "trading_symbol": "AJANTPHARM",
+      "security_id": "8124"
+    },
+    {
+      "symbol": "ALKEM",
+      "trading_symbol": "ALKEM",
+      "security_id": "11703"
+    },
+    {
+      "symbol": "ALLCARGO",
+      "trading_symbol": "ALLCARGO",
+      "security_id": "13501"
+    },
+    {
+      "symbol": "AMARAJABAT",
+      "trading_symbol": "ARE&M",
+      "security_id": "100"
+    },
+    {
+      "symbol": "AMBUJACEM",
+      "trading_symbol": "AMBUJACEM",
+      "security_id": "1270"
+    },
+    {
+      "symbol": "APLAPOLLO",
+      "trading_symbol": "APLAPOLLO",
+      "security_id": "25780"
+    },
+    {
+      "symbol": "APLLTD",
+      "trading_symbol": "APLLTD",
+      "security_id": "25328"
+    },
+    {
+      "symbol": "APOLLOHOSP",
+      "trading_symbol": "APOLLOHOSP",
+      "security_id": "157"
+    },
+    {
+      "symbol": "APOLLOTYRE",
+      "trading_symbol": "APOLLOTYRE",
+      "security_id": "163"
+    },
+    {
+      "symbol": "ASHOKA",
+      "trading_symbol": "ASHOKA",
+      "security_id": "20182"
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "trading_symbol": "ASHOKLEY",
+      "security_id": "212"
+    },
+    {
+      "symbol": "ASIANPAINT",
+      "trading_symbol": "ASIANPAINT",
+      "security_id": "236"
+    },
+    {
+      "symbol": "ASTERDM",
+      "trading_symbol": "ASTERDM",
+      "security_id": "1508"
+    },
+    {
+      "symbol": "ASTRAL",
+      "trading_symbol": "ASTRAL",
+      "security_id": "14418"
+    },
+    {
+      "symbol": "ASTRAZEN",
+      "trading_symbol": "ASTRAZEN",
+      "security_id": "5610"
+    },
+    {
+      "symbol": "ATUL",
+      "trading_symbol": "ATUL",
+      "security_id": "263"
+    },
+    {
+      "symbol": "AUBANK",
+      "trading_symbol": "AUBANK",
+      "security_id": "21238"
+    },
+    {
+      "symbol": "AUROPHARMA",
+      "trading_symbol": "AUROPHARMA",
+      "security_id": "275"
+    },
+    {
+      "symbol": "AVANTIFEED",
+      "trading_symbol": "AVANTIFEED",
+      "security_id": "7936"
+    },
+    {
+      "symbol": "AXISBANK",
+      "trading_symbol": "AXISBANK",
+      "security_id": "5900"
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "trading_symbol": "BAJAJ-AUTO",
+      "security_id": "16669"
+    },
+    {
+      "symbol": "BAJAJCON",
+      "trading_symbol": "BAJAJCON",
+      "security_id": "19531"
+    },
+    {
+      "symbol": "BAJAJELEC",
+      "trading_symbol": "BAJAJELEC",
+      "security_id": "15034"
+    },
+    {
+      "symbol": "BAJAJFINSV",
+      "trading_symbol": "BAJAJFINSV",
+      "security_id": "16675"
+    },
+    {
+      "symbol": "BAJAJHLDNG",
+      "trading_symbol": "BAJAJHLDNG",
+      "security_id": "305"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "trading_symbol": "BAJFINANCE",
+      "security_id": "317"
+    },
+    {
+      "symbol": "BALKRISIND",
+      "trading_symbol": "BALKRISIND",
+      "security_id": "335"
+    },
+    {
+      "symbol": "BALMLAWRIE",
+      "trading_symbol": "BALMLAWRIE",
+      "security_id": "338"
+    },
+    {
+      "symbol": "BALRAMCHIN",
+      "trading_symbol": "BALRAMCHIN",
+      "security_id": "341"
+    },
+    {
+      "symbol": "BANDHANBNK",
+      "trading_symbol": "BANDHANBNK",
+      "security_id": "2263"
+    },
+    {
+      "symbol": "BANKBARODA",
+      "trading_symbol": "BANKBARODA",
+      "security_id": "4668"
+    },
+    {
+      "symbol": "BANKINDIA",
+      "trading_symbol": "BANKINDIA",
+      "security_id": "4745"
+    },
+    {
+      "symbol": "BASF",
+      "trading_symbol": "BASF",
+      "security_id": "368"
+    },
+    {
+      "symbol": "BATAINDIA",
+      "trading_symbol": "BATAINDIA",
+      "security_id": "371"
+    },
+    {
+      "symbol": "BBTC",
+      "trading_symbol": "BBTC",
+      "security_id": "380"
+    },
+    {
+      "symbol": "BDL",
+      "trading_symbol": "BDL",
+      "security_id": "2144"
+    },
+    {
+      "symbol": "BEL",
+      "trading_symbol": "BEL",
+      "security_id": "383"
+    },
+    {
+      "symbol": "BEML",
+      "trading_symbol": "BEML",
+      "security_id": "395"
+    },
+    {
+      "symbol": "BERGEPAINT",
+      "trading_symbol": "BERGEPAINT",
+      "security_id": "404"
+    },
+    {
+      "symbol": "BHARATFORG",
+      "trading_symbol": "BHARATFORG",
+      "security_id": "422"
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "trading_symbol": "BHARTIARTL",
+      "security_id": "10604"
+    },
+    {
+      "symbol": "BHEL",
+      "trading_symbol": "BHEL",
+      "security_id": "438"
+    },
+    {
+      "symbol": "BIOCON",
+      "trading_symbol": "BIOCON",
+      "security_id": "11373"
+    },
+    {
+      "symbol": "BIRLACORPN",
+      "trading_symbol": "BIRLACORPN",
+      "security_id": "480"
+    },
+    {
+      "symbol": "BLISSGVS",
+      "trading_symbol": "BLISSGVS",
+      "security_id": "19269"
+    },
+    {
+      "symbol": "BLUEDART",
+      "trading_symbol": "BLUEDART",
+      "security_id": "495"
+    },
+    {
+      "symbol": "BLUESTARCO",
+      "trading_symbol": "BLUESTARCO",
+      "security_id": "8311"
+    },
+    {
+      "symbol": "BOMDYEING",
+      "trading_symbol": "BOMDYEING",
+      "security_id": "513"
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "trading_symbol": "BOSCHLTD",
+      "security_id": "2181"
+    },
+    {
+      "symbol": "BPCL",
+      "trading_symbol": "BPCL",
+      "security_id": "526"
+    },
+    {
+      "symbol": "BRIGADE",
+      "trading_symbol": "BRIGADE",
+      "security_id": "15184"
+    },
+    {
+      "symbol": "BRITANNIA",
+      "trading_symbol": "BRITANNIA",
+      "security_id": "547"
+    },
+    {
+      "symbol": "BSE",
+      "trading_symbol": "BSE",
+      "security_id": "19585"
+    },
+    {
+      "symbol": "CADILAHC",
+      "trading_symbol": "ZYDUSLIFE",
+      "security_id": "7929"
+    },
+    {
+      "symbol": "CANBK",
+      "trading_symbol": "CANBK",
+      "security_id": "10794"
+    },
+    {
+      "symbol": "CANFINHOME",
+      "trading_symbol": "CANFINHOME",
+      "security_id": "583"
+    },
+    {
+      "symbol": "CAPLIPOINT",
+      "trading_symbol": "CAPLIPOINT",
+      "security_id": "3906"
+    },
+    {
+      "symbol": "CARBORUNIV",
+      "trading_symbol": "CARBORUNIV",
+      "security_id": "595"
+    },
+    {
+      "symbol": "CARERATING",
+      "trading_symbol": "CARERATING",
+      "security_id": "29113"
+    },
+    {
+      "symbol": "CASTROLIND",
+      "trading_symbol": "CASTROLIND",
+      "security_id": "1250"
+    },
+    {
+      "symbol": "CCL",
+      "trading_symbol": "CCL",
+      "security_id": "11452"
+    },
+    {
+      "symbol": "CDSL",
+      "trading_symbol": "CDSL",
+      "security_id": "21174"
+    },
+    {
+      "symbol": "CEATLTD",
+      "trading_symbol": "CEATLTD",
+      "security_id": "15254"
+    },
+    {
+      "symbol": "CENTRALBK",
+      "trading_symbol": "CENTRALBK",
+      "security_id": "14894"
+    },
+    {
+      "symbol": "CENTURYPLY",
+      "trading_symbol": "CENTURYPLY",
+      "security_id": "13305"
+    },
+    {
+      "symbol": "CERA",
+      "trading_symbol": "CERA",
+      "security_id": "15039"
+    },
+    {
+      "symbol": "CESC",
+      "trading_symbol": "CESC",
+      "security_id": "628"
+    },
+    {
+      "symbol": "CGPOWER",
+      "trading_symbol": "CGPOWER",
+      "security_id": "760"
+    },
+    {
+      "symbol": "CHAMBLFERT",
+      "trading_symbol": "CHAMBLFERT",
+      "security_id": "637"
+    },
+    {
+      "symbol": "CHENNPETRO",
+      "trading_symbol": "CHENNPETRO",
+      "security_id": "2049"
+    },
+    {
+      "symbol": "CHOLAFIN",
+      "trading_symbol": "CHOLAFIN",
+      "security_id": "685"
+    },
+    {
+      "symbol": "CHOLAHLDNG",
+      "trading_symbol": "CHOLAHLDNG",
+      "security_id": "21740"
+    },
+    {
+      "symbol": "CIPLA",
+      "trading_symbol": "CIPLA",
+      "security_id": "694"
+    },
+    {
+      "symbol": "COALINDIA",
+      "trading_symbol": "COALINDIA",
+      "security_id": "20374"
+    },
+    {
+      "symbol": "COCHINSHIP",
+      "trading_symbol": "COCHINSHIP",
+      "security_id": "21508"
+    },
+    {
+      "symbol": "COFFEEDAY",
+      "trading_symbol": "COFFEEDAY",
+      "security_id": "11169"
+    },
+    {
+      "symbol": "COLPAL",
+      "trading_symbol": "COLPAL",
+      "security_id": "15141"
+    },
+    {
+      "symbol": "CONCOR",
+      "trading_symbol": "CONCOR",
+      "security_id": "4749"
+    },
+    {
+      "symbol": "COROMANDEL",
+      "trading_symbol": "COROMANDEL",
+      "security_id": "739"
+    },
+    {
+      "symbol": "CREDITACC",
+      "trading_symbol": "CREDITACC",
+      "security_id": "4421"
+    },
+    {
+      "symbol": "CRISIL",
+      "trading_symbol": "CRISIL",
+      "security_id": "757"
+    },
+    {
+      "symbol": "CROMPTON",
+      "trading_symbol": "CROMPTON",
+      "security_id": "17094"
+    },
+    {
+      "symbol": "CUB",
+      "trading_symbol": "CUB",
+      "security_id": "5701"
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "trading_symbol": "CUMMINSIND",
+      "security_id": "1901"
+    },
+    {
+      "symbol": "CYIENT",
+      "trading_symbol": "CYIENT",
+      "security_id": "5748"
+    },
+    {
+      "symbol": "DABUR",
+      "trading_symbol": "DABUR",
+      "security_id": "772"
+    },
+    {
+      "symbol": "DBCORP",
+      "trading_symbol": "DBCORP",
+      "security_id": "17881"
+    },
+    {
+      "symbol": "DBL",
+      "trading_symbol": "DBL",
+      "security_id": "18086"
+    },
+    {
+      "symbol": "DCAL",
+      "trading_symbol": "DCAL",
+      "security_id": "21704"
+    },
+    {
+      "symbol": "DCBBANK",
+      "trading_symbol": "DCBBANK",
+      "security_id": "13725"
+    },
+    {
+      "symbol": "DCMSHRIRAM",
+      "trading_symbol": "DCMSHRIRAM",
+      "security_id": "811"
+    },
+    {
+      "symbol": "DEEPAKFERT",
+      "trading_symbol": "DEEPAKFERT",
+      "security_id": "827"
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "trading_symbol": "DEEPAKNTR",
+      "security_id": "19943"
+    },
+    {
+      "symbol": "DELTACORP",
+      "trading_symbol": "DELTACORP",
+      "security_id": "15044"
+    },
+    {
+      "symbol": "DISHTV",
+      "trading_symbol": "DISHTV",
+      "security_id": "14540"
+    },
+    {
+      "symbol": "DIVISLAB",
+      "trading_symbol": "DIVISLAB",
+      "security_id": "10940"
+    },
+    {
+      "symbol": "DIXON",
+      "trading_symbol": "DIXON",
+      "security_id": "21690"
+    },
+    {
+      "symbol": "DLF",
+      "trading_symbol": "DLF",
+      "security_id": "14732"
+    },
+    {
+      "symbol": "DMART",
+      "trading_symbol": "DMART",
+      "security_id": "19913"
+    },
+    {
+      "symbol": "DRREDDY",
+      "trading_symbol": "DRREDDY",
+      "security_id": "881"
+    },
+    {
+      "symbol": "ECLERX",
+      "trading_symbol": "ECLERX",
+      "security_id": "15179"
+    },
+    {
+      "symbol": "EDELWEISS",
+      "trading_symbol": "EDELWEISS",
+      "security_id": "15119"
+    },
+    {
+      "symbol": "EICHERMOT",
+      "trading_symbol": "EICHERMOT",
+      "security_id": "910"
+    },
+    {
+      "symbol": "EIDPARRY",
+      "trading_symbol": "EIDPARRY",
+      "security_id": "916"
+    },
+    {
+      "symbol": "EIHOTEL",
+      "trading_symbol": "EIHOTEL",
+      "security_id": "919"
+    },
+    {
+      "symbol": "ELGIEQUIP",
+      "trading_symbol": "ELGIEQUIP",
+      "security_id": "937"
+    },
+    {
+      "symbol": "EMAMILTD",
+      "trading_symbol": "EMAMILTD",
+      "security_id": "13517"
+    },
+    {
+      "symbol": "ENDURANCE",
+      "trading_symbol": "ENDURANCE",
+      "security_id": "18822"
+    },
+    {
+      "symbol": "ENGINERSIN",
+      "trading_symbol": "ENGINERSIN",
+      "security_id": "4907"
+    },
+    {
+      "symbol": "EQUITAS",
+      "trading_symbol": "EQUITASBNK",
+      "security_id": "913"
+    },
+    {
+      "symbol": "ERIS",
+      "trading_symbol": "ERIS",
+      "security_id": "21154"
+    },
+    {
+      "symbol": "ESCORTS",
+      "trading_symbol": "ESCORTS",
+      "security_id": "958"
+    },
+    {
+      "symbol": "EXIDEIND",
+      "trading_symbol": "EXIDEIND",
+      "security_id": "676"
+    },
+    {
+      "symbol": "FCONSUMER",
+      "trading_symbol": "FCONSUMER",
+      "security_id": "760500"
+    },
+    {
+      "symbol": "FDC",
+      "trading_symbol": "FDC",
+      "security_id": "4898"
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "trading_symbol": "FEDERALBNK",
+      "security_id": "1023"
+    },
+    {
+      "symbol": "FINCABLES",
+      "trading_symbol": "FINCABLES",
+      "security_id": "1038"
+    },
+    {
+      "symbol": "FINEORG",
+      "trading_symbol": "FINEORG",
+      "security_id": "3744"
+    },
+    {
+      "symbol": "FINPIPE",
+      "trading_symbol": "FINPIPE",
+      "security_id": "1041"
+    },
+    {
+      "symbol": "FLFL",
+      "trading_symbol": "FLFL",
+      "security_id": "14868"
+    },
+    {
+      "symbol": "FORTIS",
+      "trading_symbol": "FORTIS",
+      "security_id": "14592"
+    },
+    {
+      "symbol": "FRETAIL",
+      "trading_symbol": "FCONSUMER",
+      "security_id": "760500"
+    },
+    {
+      "symbol": "FSL",
+      "trading_symbol": "FSL",
+      "security_id": "14304"
+    },
+    {
+      "symbol": "GAIL",
+      "trading_symbol": "GAIL",
+      "security_id": "4717"
+    },
+    {
+      "symbol": "GALAXYSURF",
+      "trading_symbol": "GALAXYSURF",
+      "security_id": "1315"
+    },
+    {
+      "symbol": "GAYAPROJ",
+      "trading_symbol": "GAYAPROJ",
+      "security_id": "25027"
+    },
+    {
+      "symbol": "GESHIP",
+      "trading_symbol": "GESHIP",
+      "security_id": "13776"
+    },
+    {
+      "symbol": "GHCL",
+      "trading_symbol": "GHCL",
+      "security_id": "1127"
+    },
+    {
+      "symbol": "GICRE",
+      "trading_symbol": "GICRE",
+      "security_id": "277"
+    },
+    {
+      "symbol": "GILLETTE",
+      "trading_symbol": "GILLETTE",
+      "security_id": "1576"
+    },
+    {
+      "symbol": "GLAXO",
+      "trading_symbol": "GLAXO",
+      "security_id": "1153"
+    },
+    {
+      "symbol": "GLENMARK",
+      "trading_symbol": "GLENMARK",
+      "security_id": "7406"
+    },
+    {
+      "symbol": "GMDCLTD",
+      "trading_symbol": "GMDCLTD",
+      "security_id": "5204"
+    },
+    {
+      "symbol": "GMRINFRA",
+      "trading_symbol": "GMRAIRPORT",
+      "security_id": "13528"
+    },
+    {
+      "symbol": "GNFC",
+      "trading_symbol": "GNFC",
+      "security_id": "1174"
+    },
+    {
+      "symbol": "GODFRYPHLP",
+      "trading_symbol": "GODFRYPHLP",
+      "security_id": "1181"
+    },
+    {
+      "symbol": "GODREJAGRO",
+      "trading_symbol": "GODREJAGRO",
+      "security_id": "144"
+    },
+    {
+      "symbol": "GODREJCP",
+      "trading_symbol": "GODREJCP",
+      "security_id": "10099"
+    },
+    {
+      "symbol": "GODREJIND",
+      "trading_symbol": "GODREJIND",
+      "security_id": "10925"
+    },
+    {
+      "symbol": "GODREJPROP",
+      "trading_symbol": "GODREJPROP",
+      "security_id": "17875"
+    },
+    {
+      "symbol": "GPPL",
+      "trading_symbol": "GPPL",
+      "security_id": "19731"
+    },
+    {
+      "symbol": "GRANULES",
+      "trading_symbol": "GRANULES",
+      "security_id": "11872"
+    },
+    {
+      "symbol": "GRAPHITE",
+      "trading_symbol": "GRAPHITE",
+      "security_id": "592"
+    },
+    {
+      "symbol": "GRASIM",
+      "trading_symbol": "GRASIM",
+      "security_id": "1232"
+    },
+    {
+      "symbol": "GREAVESCOT",
+      "trading_symbol": "GREAVESCOT",
+      "security_id": "1235"
+    },
+    {
+      "symbol": "GRINDWELL",
+      "trading_symbol": "GRINDWELL",
+      "security_id": "13560"
+    },
+    {
+      "symbol": "GRUH",
+      "trading_symbol": "BANDHANBNK",
+      "security_id": "2263"
+    },
+    {
+      "symbol": "GSFC",
+      "trading_symbol": "GSFC",
+      "security_id": "1247"
+    },
+    {
+      "symbol": "GUJALKALI",
+      "trading_symbol": "GUJALKALI",
+      "security_id": "1267"
+    },
+    {
+      "symbol": "GULFOILLUB",
+      "trading_symbol": "GULFOILLUB",
+      "security_id": "4391"
+    },
+    {
+      "symbol": "HAL",
+      "trading_symbol": "HAL",
+      "security_id": "2303"
+    },
+    {
+      "symbol": "HATHWAY",
+      "trading_symbol": "HATHWAY",
+      "security_id": "18154"
+    },
+    {
+      "symbol": "HATSUN",
+      "trading_symbol": "HATSUN",
+      "security_id": "3892"
+    },
+    {
+      "symbol": "HAVELLS",
+      "trading_symbol": "HAVELLS",
+      "security_id": "9819"
+    },
+    {
+      "symbol": "HCLTECH",
+      "trading_symbol": "HCLTECH",
+      "security_id": "7229"
+    },
+    {
+      "symbol": "HDFC",
+      "trading_symbol": "HDFCBANK",
+      "security_id": "1333"
+    },
+    {
+      "symbol": "HDFCAMC",
+      "trading_symbol": "HDFCAMC",
+      "security_id": "4244"
+    },
+    {
+      "symbol": "HDFCBANK",
+      "trading_symbol": "HDFCBANK",
+      "security_id": "1333"
+    },
+    {
+      "symbol": "HDFCLIFE",
+      "trading_symbol": "HDFCLIFE",
+      "security_id": "467"
+    },
+    {
+      "symbol": "HEG",
+      "trading_symbol": "HEG",
+      "security_id": "1336"
+    },
+    {
+      "symbol": "HEIDELBERG",
+      "trading_symbol": "HEIDELBERG",
+      "security_id": "2316"
+    },
+    {
+      "symbol": "HERITGFOOD",
+      "trading_symbol": "HERITGFOOD",
+      "security_id": "4598"
+    },
+    {
+      "symbol": "HEROMOTOCO",
+      "trading_symbol": "HEROMOTOCO",
+      "security_id": "1348"
+    },
+    {
+      "symbol": "HEXAWARE",
+      "trading_symbol": "HEXT",
+      "security_id": "29666"
+    },
+    {
+      "symbol": "HFCL",
+      "trading_symbol": "HFCL",
+      "security_id": "21951"
+    },
+    {
+      "symbol": "HIMATSEIDE",
+      "trading_symbol": "HIMATSEIDE",
+      "security_id": "1360"
+    },
+    {
+      "symbol": "HINDALCO",
+      "trading_symbol": "HINDALCO",
+      "security_id": "1363"
+    },
+    {
+      "symbol": "HINDCOPPER",
+      "trading_symbol": "HINDCOPPER",
+      "security_id": "17939"
+    },
+    {
+      "symbol": "HINDPETRO",
+      "trading_symbol": "HINDPETRO",
+      "security_id": "1406"
+    },
+    {
+      "symbol": "HINDUNILVR",
+      "trading_symbol": "HINDUNILVR",
+      "security_id": "1394"
+    },
+    {
+      "symbol": "HINDZINC",
+      "trading_symbol": "HINDZINC",
+      "security_id": "1424"
+    },
+    {
+      "symbol": "HONAUT",
+      "trading_symbol": "HONAUT",
+      "security_id": "3417"
+    },
+    {
+      "symbol": "HSCL",
+      "trading_symbol": "HSCL",
+      "security_id": "14334"
+    },
+    {
+      "symbol": "HUDCO",
+      "trading_symbol": "HUDCO",
+      "security_id": "20825"
+    },
+    {
+      "symbol": "IBULHSGFIN",
+      "trading_symbol": "SAMMAANCAP",
+      "security_id": "30125"
+    },
+    {
+      "symbol": "ICICIBANK",
+      "trading_symbol": "ICICIBANK",
+      "security_id": "4963"
+    },
+    {
+      "symbol": "ICICIGI",
+      "trading_symbol": "ICICIGI",
+      "security_id": "21770"
+    },
+    {
+      "symbol": "ICICIPRULI",
+      "trading_symbol": "ICICIPRULI",
+      "security_id": "18652"
+    },
+    {
+      "symbol": "ICRA",
+      "trading_symbol": "ICRA",
+      "security_id": "14523"
+    },
+    {
+      "symbol": "IDBI",
+      "trading_symbol": "IDBI",
+      "security_id": "1476"
+    },
+    {
+      "symbol": "IDEA",
+      "trading_symbol": "IDEA",
+      "security_id": "14366"
+    },
+    {
+      "symbol": "IDFC",
+      "trading_symbol": "IDFCFIRSTB",
+      "security_id": "11184"
+    },
+    {
+      "symbol": "IDFCFIRSTB",
+      "trading_symbol": "IDFCFIRSTB",
+      "security_id": "11184"
+    },
+    {
+      "symbol": "IEX",
+      "trading_symbol": "IEX",
+      "security_id": "220"
+    },
+    {
+      "symbol": "IFBIND",
+      "trading_symbol": "IFBIND",
+      "security_id": "1485"
+    },
+    {
+      "symbol": "IFCI",
+      "trading_symbol": "IFCI",
+      "security_id": "1491"
+    },
+    {
+      "symbol": "IGL",
+      "trading_symbol": "IGL",
+      "security_id": "11262"
+    },
+    {
+      "symbol": "INDHOTEL",
+      "trading_symbol": "INDHOTEL",
+      "security_id": "1512"
+    },
+    {
+      "symbol": "INDIACEM",
+      "trading_symbol": "INDIACEM",
+      "security_id": "1515"
+    },
+    {
+      "symbol": "INDIANB",
+      "trading_symbol": "INDIANB",
+      "security_id": "14309"
+    },
+    {
+      "symbol": "INDIGO",
+      "trading_symbol": "INDIGO",
+      "security_id": "11195"
+    },
+    {
+      "symbol": "INDOCO",
+      "trading_symbol": "INDOCO",
+      "security_id": "11677"
+    },
+    {
+      "symbol": "INDOSTAR",
+      "trading_symbol": "INDOSTAR",
+      "security_id": "3088"
+    },
+    {
+      "symbol": "INDUSINDBK",
+      "trading_symbol": "INDUSINDBK",
+      "security_id": "5258"
+    },
+    {
+      "symbol": "INFRATEL",
+      "trading_symbol": "INDUSTOWER",
+      "security_id": "29135"
+    },
+    {
+      "symbol": "INFY",
+      "trading_symbol": "INFY",
+      "security_id": "1594"
+    },
+    {
+      "symbol": "INOXLEISUR",
+      "trading_symbol": "INOXINDIA",
+      "security_id": "20607"
+    },
+    {
+      "symbol": "INOXWIND",
+      "trading_symbol": "INOXWIND",
+      "security_id": "7852"
+    },
+    {
+      "symbol": "INTELLECT",
+      "trading_symbol": "INTELLECT",
+      "security_id": "5926"
+    },
+    {
+      "symbol": "IOB",
+      "trading_symbol": "IOB",
+      "security_id": "9348"
+    },
+    {
+      "symbol": "IOC",
+      "trading_symbol": "IOC",
+      "security_id": "1624"
+    },
+    {
+      "symbol": "IPCALAB",
+      "trading_symbol": "IPCALAB",
+      "security_id": "1633"
+    },
+    {
+      "symbol": "IRB",
+      "trading_symbol": "IRB",
+      "security_id": "15313"
+    },
+    {
+      "symbol": "IRCON",
+      "trading_symbol": "IRCON",
+      "security_id": "4986"
+    },
+    {
+      "symbol": "ITC",
+      "trading_symbol": "ITC",
+      "security_id": "1660"
+    },
+    {
+      "symbol": "ITDC",
+      "trading_symbol": "ITDC",
+      "security_id": "19299"
+    },
+    {
+      "symbol": "ITI",
+      "trading_symbol": "ITI",
+      "security_id": "1675"
+    },
+    {
+      "symbol": "J&KBANK",
+      "trading_symbol": "J&KBANK",
+      "security_id": "5633"
+    },
+    {
+      "symbol": "JAGRAN",
+      "trading_symbol": "JAGRAN",
+      "security_id": "13211"
+    },
+    {
+      "symbol": "JAICORPLTD",
+      "trading_symbol": "JAICORPLTD",
+      "security_id": "5143"
+    },
+    {
+      "symbol": "JAMNAAUTO",
+      "trading_symbol": "JAMNAAUTO",
+      "security_id": "20778"
+    },
+    {
+      "symbol": "JBCHEPHARM",
+      "trading_symbol": "JBCHEPHARM",
+      "security_id": "1726"
+    },
+    {
+      "symbol": "JINDALSAW",
+      "trading_symbol": "JINDALSAW",
+      "security_id": "3024"
+    },
+    {
+      "symbol": "JINDALSTEL",
+      "trading_symbol": "JINDALSTEL",
+      "security_id": "6733"
+    },
+    {
+      "symbol": "JISLJALEQS",
+      "trading_symbol": "JISLJALEQS",
+      "security_id": "10397"
+    },
+    {
+      "symbol": "JKCEMENT",
+      "trading_symbol": "JKCEMENT",
+      "security_id": "13270"
+    },
+    {
+      "symbol": "JKLAKSHMI",
+      "trading_symbol": "JKLAKSHMI",
+      "security_id": "13491"
+    },
+    {
+      "symbol": "JKPAPER",
+      "trading_symbol": "JKPAPER",
+      "security_id": "11860"
+    },
+    {
+      "symbol": "JKTYRE",
+      "trading_symbol": "JKTYRE",
+      "security_id": "14435"
+    },
+    {
+      "symbol": "JMFINANCIL",
+      "trading_symbol": "JMFINANCIL",
+      "security_id": "13637"
+    },
+    {
+      "symbol": "JSL",
+      "trading_symbol": "JSL",
+      "security_id": "11236"
+    },
+    {
+      "symbol": "JSLHISAR",
+      "trading_symbol": "JSL",
+      "security_id": "11236"
+    },
+    {
+      "symbol": "JSWENERGY",
+      "trading_symbol": "JSWENERGY",
+      "security_id": "17869"
+    },
+    {
+      "symbol": "JSWSTEEL",
+      "trading_symbol": "JSWSTEEL",
+      "security_id": "11723"
+    },
+    {
+      "symbol": "JUBILANT",
+      "trading_symbol": "JUBLFOOD",
+      "security_id": "18096"
+    },
+    {
+      "symbol": "JUBLFOOD",
+      "trading_symbol": "JUBLFOOD",
+      "security_id": "18096"
+    },
+    {
+      "symbol": "JUSTDIAL",
+      "trading_symbol": "JUSTDIAL",
+      "security_id": "29962"
+    },
+    {
+      "symbol": "JYOTHYLAB",
+      "trading_symbol": "JYOTHYLAB",
+      "security_id": "15146"
+    },
+    {
+      "symbol": "KAJARIACER",
+      "trading_symbol": "KAJARIACER",
+      "security_id": "1808"
+    },
+    {
+      "symbol": "KANSAINER",
+      "trading_symbol": "KANSAINER",
+      "security_id": "1196"
+    },
+    {
+      "symbol": "KARURVYSYA",
+      "trading_symbol": "KARURVYSYA",
+      "security_id": "1838"
+    },
+    {
+      "symbol": "KEC",
+      "trading_symbol": "KEC",
+      "security_id": "13260"
+    },
+    {
+      "symbol": "KEI",
+      "trading_symbol": "KEI",
+      "security_id": "13310"
+    },
+    {
+      "symbol": "KIOCL",
+      "trading_symbol": "KIOCL",
+      "security_id": "19126"
+    },
+    {
+      "symbol": "KIRLOSENG",
+      "trading_symbol": "KIRLOSENG",
+      "security_id": "20936"
+    },
+    {
+      "symbol": "KNRCON",
+      "trading_symbol": "KNRCON",
+      "security_id": "15283"
+    },
+    {
+      "symbol": "KOLTEPATIL",
+      "trading_symbol": "KOLTEPATIL",
+      "security_id": "15124"
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "trading_symbol": "KOTAKBANK",
+      "security_id": "1922"
+    },
+    {
+      "symbol": "KPRMILL",
+      "trading_symbol": "KPRMILL",
+      "security_id": "14912"
+    },
+    {
+      "symbol": "KRBL",
+      "trading_symbol": "KRBL",
+      "security_id": "10577"
+    },
+    {
+      "symbol": "KSCL",
+      "trading_symbol": "KSCL",
+      "security_id": "14972"
+    },
+    {
+      "symbol": "KTKBANK",
+      "trading_symbol": "KTKBANK",
+      "security_id": "8054"
+    },
+    {
+      "symbol": "L&TFH",
+      "trading_symbol": "LTF",
+      "security_id": "24948"
+    },
+    {
+      "symbol": "LALPATHLAB",
+      "trading_symbol": "LALPATHLAB",
+      "security_id": "11654"
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "trading_symbol": "LAURUSLABS",
+      "security_id": "19234"
+    },
+    {
+      "symbol": "LAXMIMACH",
+      "trading_symbol": "LMW",
+      "security_id": "1979"
+    },
+    {
+      "symbol": "LEMONTREE",
+      "trading_symbol": "LEMONTREE",
+      "security_id": "2606"
+    },
+    {
+      "symbol": "LICHSGFIN",
+      "trading_symbol": "LICHSGFIN",
+      "security_id": "1997"
+    },
+    {
+      "symbol": "LINDEINDIA",
+      "trading_symbol": "LINDEINDIA",
+      "security_id": "1627"
+    },
+    {
+      "symbol": "LT",
+      "trading_symbol": "LT",
+      "security_id": "11483"
+    },
+    {
+      "symbol": "LTTS",
+      "trading_symbol": "LTTS",
+      "security_id": "18564"
+    },
+    {
+      "symbol": "LUPIN",
+      "trading_symbol": "LUPIN",
+      "security_id": "10440"
+    },
+    {
+      "symbol": "LUXIND",
+      "trading_symbol": "LUXIND",
+      "security_id": "11301"
+    },
+    {
+      "symbol": "M&M",
+      "trading_symbol": "M&M",
+      "security_id": "2031"
+    },
+    {
+      "symbol": "M&MFIN",
+      "trading_symbol": "M&MFIN",
+      "security_id": "13285"
+    },
+    {
+      "symbol": "MAGMA",
+      "trading_symbol": "MAGNUM",
+      "security_id": "14957"
+    },
+    {
+      "symbol": "MAHABANK",
+      "trading_symbol": "MAHABANK",
+      "security_id": "11377"
+    },
+    {
+      "symbol": "MAHINDCIE",
+      "trading_symbol": "MINDACORP",
+      "security_id": "25897"
+    },
+    {
+      "symbol": "MAHLOG",
+      "trading_symbol": "MAHLOG",
+      "security_id": "385"
+    },
+    {
+      "symbol": "MAHSCOOTER",
+      "trading_symbol": "MAHSCOOTER",
+      "security_id": "2085"
+    },
+    {
+      "symbol": "MAHSEAMLES",
+      "trading_symbol": "MAHSEAMLES",
+      "security_id": "2088"
+    },
+    {
+      "symbol": "MANAPPURAM",
+      "trading_symbol": "MANAPPURAM",
+      "security_id": "19061"
+    },
+    {
+      "symbol": "MARICO",
+      "trading_symbol": "MARICO",
+      "security_id": "4067"
+    },
+    {
+      "symbol": "MARUTI",
+      "trading_symbol": "MARUTI",
+      "security_id": "10999"
+    },
+    {
+      "symbol": "MASFIN",
+      "trading_symbol": "MASFIN",
+      "security_id": "199"
+    },
+    {
+      "symbol": "MAXINDIA",
+      "trading_symbol": "MAXHEALTH",
+      "security_id": "22377"
+    },
+    {
+      "symbol": "MCDOWELL-N",
+      "trading_symbol": "UNITDSPR",
+      "security_id": "10447"
+    },
+    {
+      "symbol": "MFSL",
+      "trading_symbol": "MFSL",
+      "security_id": "2142"
+    },
+    {
+      "symbol": "MGL",
+      "trading_symbol": "MGL",
+      "security_id": "17534"
+    },
+    {
+      "symbol": "MHRIL",
+      "trading_symbol": "MHRIL",
+      "security_id": "17333"
+    },
+    {
+      "symbol": "MINDACORP",
+      "trading_symbol": "MINDACORP",
+      "security_id": "25897"
+    },
+    {
+      "symbol": "MINDAIND",
+      "trading_symbol": "UNOMINDA",
+      "security_id": "14154"
+    },
+    {
+      "symbol": "MMTC",
+      "trading_symbol": "MMTC",
+      "security_id": "17957"
+    },
+    {
+      "symbol": "MOIL",
+      "trading_symbol": "MOIL",
+      "security_id": "20830"
+    },
+    {
+      "symbol": "MOTHERSUMI",
+      "trading_symbol": "MOTHERSON",
+      "security_id": "4204"
+    },
+    {
+      "symbol": "MOTILALOFS",
+      "trading_symbol": "MOTILALOFS",
+      "security_id": "14947"
+    },
+    {
+      "symbol": "MPHASIS",
+      "trading_symbol": "MPHASIS",
+      "security_id": "4503"
+    },
+    {
+      "symbol": "MRF",
+      "trading_symbol": "MRF",
+      "security_id": "2277"
+    },
+    {
+      "symbol": "MRPL",
+      "trading_symbol": "MRPL",
+      "security_id": "2283"
+    },
+    {
+      "symbol": "MUTHOOTFIN",
+      "trading_symbol": "MUTHOOTFIN",
+      "security_id": "23650"
+    },
+    {
+      "symbol": "NATCOPHARM",
+      "trading_symbol": "NATCOPHARM",
+      "security_id": "3918"
+    },
+    {
+      "symbol": "NATIONALUM",
+      "trading_symbol": "NATIONALUM",
+      "security_id": "6364"
+    },
+    {
+      "symbol": "NAUKRI",
+      "trading_symbol": "NAUKRI",
+      "security_id": "13751"
+    },
+    {
+      "symbol": "NAVINFLUOR",
+      "trading_symbol": "NAVINFLUOR",
+      "security_id": "14672"
+    },
+    {
+      "symbol": "NBCC",
+      "trading_symbol": "NBCC",
+      "security_id": "31415"
+    },
+    {
+      "symbol": "NBVENTURES",
+      "trading_symbol": "NAVA",
+      "security_id": "4014"
+    },
+    {
+      "symbol": "NCC",
+      "trading_symbol": "NCC",
+      "security_id": "2319"
+    },
+    {
+      "symbol": "NESCO",
+      "trading_symbol": "NESCO",
+      "security_id": "15409"
+    },
+    {
+      "symbol": "NETWORK18",
+      "trading_symbol": "NETWORK18",
+      "security_id": "14111"
+    },
+    {
+      "symbol": "NFL",
+      "trading_symbol": "NFL",
+      "security_id": "13925"
+    },
+    {
+      "symbol": "NH",
+      "trading_symbol": "NH",
+      "security_id": "11840"
+    },
+    {
+      "symbol": "NHPC",
+      "trading_symbol": "NHPC",
+      "security_id": "17400"
+    },
+    {
+      "symbol": "NIACL",
+      "trading_symbol": "NIACL",
+      "security_id": "399"
+    },
+    {
+      "symbol": "NIITTECH",
+      "trading_symbol": "COFORGE",
+      "security_id": "11543"
+    },
+    {
+      "symbol": "NILKAMAL",
+      "trading_symbol": "NILKAMAL",
+      "security_id": "2421"
+    },
+    {
+      "symbol": "NLCINDIA",
+      "trading_symbol": "NLCINDIA",
+      "security_id": "8585"
+    },
+    {
+      "symbol": "NMDC",
+      "trading_symbol": "NMDC",
+      "security_id": "15332"
+    },
+    {
+      "symbol": "NTPC",
+      "trading_symbol": "NTPC",
+      "security_id": "11630"
+    },
+    {
+      "symbol": "OBEROIRLTY",
+      "trading_symbol": "OBEROIRLTY",
+      "security_id": "20242"
+    },
+    {
+      "symbol": "OFSS",
+      "trading_symbol": "OFSS",
+      "security_id": "10738"
+    },
+    {
+      "symbol": "OIL",
+      "trading_symbol": "OIL",
+      "security_id": "17438"
+    },
+    {
+      "symbol": "OMAXE",
+      "trading_symbol": "OMAXE",
+      "security_id": "14853"
+    },
+    {
+      "symbol": "ONGC",
+      "trading_symbol": "ONGC",
+      "security_id": "2475"
+    },
+    {
+      "symbol": "ORIENTCEM",
+      "trading_symbol": "ORIENTCEM",
+      "security_id": "30089"
+    },
+    {
+      "symbol": "ORIENTELEC",
+      "trading_symbol": "ORIENTELEC",
+      "security_id": "2972"
+    },
+    {
+      "symbol": "PAGEIND",
+      "trading_symbol": "PAGEIND",
+      "security_id": "14413"
+    },
+    {
+      "symbol": "PARAGMILK",
+      "trading_symbol": "PARAGMILK",
+      "security_id": "17130"
+    },
+    {
+      "symbol": "PCJEWELLER",
+      "trading_symbol": "PCJEWELLER",
+      "security_id": "29124"
+    },
+    {
+      "symbol": "PEL",
+      "trading_symbol": "POLICYBZR",
+      "security_id": "6656"
+    },
+    {
+      "symbol": "PERSISTENT",
+      "trading_symbol": "PERSISTENT",
+      "security_id": "18365"
+    },
+    {
+      "symbol": "PETRONET",
+      "trading_symbol": "PETRONET",
+      "security_id": "11351"
+    },
+    {
+      "symbol": "PFC",
+      "trading_symbol": "PFC",
+      "security_id": "14299"
+    },
+    {
+      "symbol": "PFIZER",
+      "trading_symbol": "PFIZER",
+      "security_id": "2643"
+    },
+    {
+      "symbol": "PGHH",
+      "trading_symbol": "PGHH",
+      "security_id": "2535"
+    },
+    {
+      "symbol": "PGHL",
+      "trading_symbol": "PGHL",
+      "security_id": "940"
+    },
+    {
+      "symbol": "PHILIPCARB",
+      "trading_symbol": "PCBL",
+      "security_id": "2649"
+    },
+    {
+      "symbol": "PHOENIXLTD",
+      "trading_symbol": "PHOENIXLTD",
+      "security_id": "14552"
+    },
+    {
+      "symbol": "PIDILITIND",
+      "trading_symbol": "PIDILITIND",
+      "security_id": "2664"
+    },
+    {
+      "symbol": "PIIND",
+      "trading_symbol": "PIIND",
+      "security_id": "24184"
+    },
+    {
+      "symbol": "PNB",
+      "trading_symbol": "PNB",
+      "security_id": "10666"
+    },
+    {
+      "symbol": "PNBHOUSING",
+      "trading_symbol": "PNBHOUSING",
+      "security_id": "18908"
+    },
+    {
+      "symbol": "PNCINFRA",
+      "trading_symbol": "PNCINFRA",
+      "security_id": "9385"
+    },
+    {
+      "symbol": "POWERGRID",
+      "trading_symbol": "POWERGRID",
+      "security_id": "14977"
+    },
+    {
+      "symbol": "PRAJIND",
+      "trading_symbol": "PRAJIND",
+      "security_id": "2705"
+    },
+    {
+      "symbol": "PRESTIGE",
+      "trading_symbol": "PRESTIGE",
+      "security_id": "20302"
+    },
+    {
+      "symbol": "PRSMJOHNSN",
+      "trading_symbol": "PRSMJOHNSN",
+      "security_id": "2739"
+    },
+    {
+      "symbol": "PTC",
+      "trading_symbol": "PTC",
+      "security_id": "11355"
+    },
+    {
+      "symbol": "PVR",
+      "trading_symbol": "PVRINOX",
+      "security_id": "13147"
+    },
+    {
+      "symbol": "QUESS",
+      "trading_symbol": "QUESS",
+      "security_id": "17704"
+    },
+    {
+      "symbol": "RADICO",
+      "trading_symbol": "RADICO",
+      "security_id": "10990"
+    },
+    {
+      "symbol": "RAIN",
+      "trading_symbol": "RAIN",
+      "security_id": "15337"
+    },
+    {
+      "symbol": "RAJESHEXPO",
+      "trading_symbol": "RAJESHEXPO",
+      "security_id": "760461"
+    },
+    {
+      "symbol": "RALLIS",
+      "trading_symbol": "RALLIS",
+      "security_id": "2816"
+    },
+    {
+      "symbol": "RAMCOCEM",
+      "trading_symbol": "RAMCOCEM",
+      "security_id": "2043"
+    },
+    {
+      "symbol": "RAYMOND",
+      "trading_symbol": "RAYMOND",
+      "security_id": "2859"
+    },
+    {
+      "symbol": "RBLBANK",
+      "trading_symbol": "RBLBANK",
+      "security_id": "18391"
+    },
+    {
+      "symbol": "RCF",
+      "trading_symbol": "RCF",
+      "security_id": "2866"
+    },
+    {
+      "symbol": "RCOM",
+      "trading_symbol": "RCOM",
+      "security_id": "13188"
+    },
+    {
+      "symbol": "RECLTD",
+      "trading_symbol": "RECLTD",
+      "security_id": "15355"
+    },
+    {
+      "symbol": "REDINGTON",
+      "trading_symbol": "REDINGTON",
+      "security_id": "14255"
+    },
+    {
+      "symbol": "RELAXO",
+      "trading_symbol": "RELAXO",
+      "security_id": "24225"
+    },
+    {
+      "symbol": "RELIANCE",
+      "trading_symbol": "RELIANCE",
+      "security_id": "2885"
+    },
+    {
+      "symbol": "RELINFRA",
+      "trading_symbol": "RELINFRA",
+      "security_id": "4791"
+    },
+    {
+      "symbol": "RENUKA",
+      "trading_symbol": "RENUKA",
+      "security_id": "12026"
+    },
+    {
+      "symbol": "REPCOHOME",
+      "trading_symbol": "REPCOHOME",
+      "security_id": "29598"
+    },
+    {
+      "symbol": "RHFL",
+      "trading_symbol": "RHFL",
+      "security_id": "759204"
+    },
+    {
+      "symbol": "RITES",
+      "trading_symbol": "RITES",
+      "security_id": "3761"
+    },
+    {
+      "symbol": "RKFORGE",
+      "trading_symbol": "RKFORGE",
+      "security_id": "11411"
+    },
+    {
+      "symbol": "RPOWER",
+      "trading_symbol": "RPOWER",
+      "security_id": "15259"
+    },
+    {
+      "symbol": "RUPA",
+      "trading_symbol": "RUPA",
+      "security_id": "25724"
+    },
+    {
+      "symbol": "SADBHAV",
+      "trading_symbol": "SADBHAV",
+      "security_id": "13236"
+    },
+    {
+      "symbol": "SAIL",
+      "trading_symbol": "SAIL",
+      "security_id": "2963"
+    },
+    {
+      "symbol": "SANOFI",
+      "trading_symbol": "SANOFI",
+      "security_id": "1442"
+    },
+    {
+      "symbol": "SBILIFE",
+      "trading_symbol": "SBILIFE",
+      "security_id": "21808"
+    },
+    {
+      "symbol": "SBIN",
+      "trading_symbol": "SBIN",
+      "security_id": "3045"
+    },
+    {
+      "symbol": "SCHAEFFLER",
+      "trading_symbol": "SCHAEFFLER",
+      "security_id": "1011"
+    },
+    {
+      "symbol": "SCI",
+      "trading_symbol": "SCI",
+      "security_id": "3048"
+    },
+    {
+      "symbol": "SFL",
+      "trading_symbol": "SFL",
+      "security_id": "19184"
+    },
+    {
+      "symbol": "SHANKARA",
+      "trading_symbol": "SHANKARA",
+      "security_id": "20337"
+    },
+    {
+      "symbol": "SHARDACROP",
+      "trading_symbol": "SHARDACROP",
+      "security_id": "4992"
+    },
+    {
+      "symbol": "SHILPAMED",
+      "trading_symbol": "SHILPAMED",
+      "security_id": "17752"
+    },
+    {
+      "symbol": "SHK",
+      "trading_symbol": "SHK",
+      "security_id": "11212"
+    },
+    {
+      "symbol": "SHOPERSTOP",
+      "trading_symbol": "SHOPERSTOP",
+      "security_id": "11813"
+    },
+    {
+      "symbol": "SHREECEM",
+      "trading_symbol": "SHREECEM",
+      "security_id": "3103"
+    },
+    {
+      "symbol": "SHRIRAMCIT",
+      "trading_symbol": "SHRIRAMFIN",
+      "security_id": "4306"
+    },
+    {
+      "symbol": "SIEMENS",
+      "trading_symbol": "SIEMENS",
+      "security_id": "3150"
+    },
+    {
+      "symbol": "SIS",
+      "trading_symbol": "SIS",
+      "security_id": "21501"
+    },
+    {
+      "symbol": "SJVN",
+      "trading_symbol": "SJVN",
+      "security_id": "18883"
+    },
+    {
+      "symbol": "SKFINDIA",
+      "trading_symbol": "SKFINDIA",
+      "security_id": "3186"
+    },
+    {
+      "symbol": "SOBHA",
+      "trading_symbol": "SOBHA",
+      "security_id": "13826"
+    },
+    {
+      "symbol": "SOLARINDS",
+      "trading_symbol": "SOLARINDS",
+      "security_id": "13332"
+    },
+    {
+      "symbol": "SONATSOFTW",
+      "trading_symbol": "SONATSOFTW",
+      "security_id": "6596"
+    },
+    {
+      "symbol": "SOUTHBANK",
+      "trading_symbol": "SOUTHBANK",
+      "security_id": "5948"
+    },
+    {
+      "symbol": "SPARC",
+      "trading_symbol": "SPARC",
+      "security_id": "14788"
+    },
+    {
+      "symbol": "SPTL",
+      "trading_symbol": "SPAL",
+      "security_id": "18252"
+    },
+    {
+      "symbol": "SRF",
+      "trading_symbol": "SRF",
+      "security_id": "3273"
+    },
+    {
+      "symbol": "SRTRANSFIN",
+      "trading_symbol": "CHOLAFIN",
+      "security_id": "685"
+    },
+    {
+      "symbol": "STAR",
+      "trading_symbol": "STAR",
+      "security_id": "7374"
+    },
+    {
+      "symbol": "STARCEMENT",
+      "trading_symbol": "STARCEMENT",
+      "security_id": "21091"
+    },
+    {
+      "symbol": "SUDARSCHEM",
+      "trading_symbol": "SUDARSCHEM",
+      "security_id": "3327"
+    },
+    {
+      "symbol": "SUNDARMFIN",
+      "trading_symbol": "SUNDARMFIN",
+      "security_id": "3339"
+    },
+    {
+      "symbol": "SUNDRMFAST",
+      "trading_symbol": "SUNDRMFAST",
+      "security_id": "3345"
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "trading_symbol": "SUNPHARMA",
+      "security_id": "3351"
+    },
+    {
+      "symbol": "SUNTECK",
+      "trading_symbol": "SUNTECK",
+      "security_id": "17641"
+    },
+    {
+      "symbol": "SUNTV",
+      "trading_symbol": "SUNTV",
+      "security_id": "13404"
+    },
+    {
+      "symbol": "SUPRAJIT",
+      "trading_symbol": "SUPRAJIT",
+      "security_id": "11689"
+    },
+    {
+      "symbol": "SUPREMEIND",
+      "trading_symbol": "SUPREMEIND",
+      "security_id": "3363"
+    },
+    {
+      "symbol": "SUVEN",
+      "trading_symbol": "SUVEN",
+      "security_id": "11233"
+    },
+    {
+      "symbol": "SUZLON",
+      "trading_symbol": "SUZLON",
+      "security_id": "12018"
+    },
+    {
+      "symbol": "SWANENERGY",
+      "trading_symbol": "SWANCORP",
+      "security_id": "27095"
+    },
+    {
+      "symbol": "SYMPHONY",
+      "trading_symbol": "SYMPHONY",
+      "security_id": "24190"
+    },
+    {
+      "symbol": "SYNGENE",
+      "trading_symbol": "SYNGENE",
+      "security_id": "10243"
+    },
+    {
+      "symbol": "TAKE",
+      "trading_symbol": "TAKE",
+      "security_id": "14920"
+    },
+    {
+      "symbol": "TATACHEM",
+      "trading_symbol": "TATACHEM",
+      "security_id": "3405"
+    },
+    {
+      "symbol": "TATACOFFEE",
+      "trading_symbol": "TATACONSUM",
+      "security_id": "3432"
+    },
+    {
+      "symbol": "TATAELXSI",
+      "trading_symbol": "TATAELXSI",
+      "security_id": "3411"
+    },
+    {
+      "symbol": "TATAGLOBAL",
+      "trading_symbol": "TATACONSUM",
+      "security_id": "3432"
+    },
+    {
+      "symbol": "TATAINVEST",
+      "trading_symbol": "TATAINVEST",
+      "security_id": "1621"
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "trading_symbol": "TMPV",
+      "security_id": "3456"
+    },
+    {
+      "symbol": "TATAPOWER",
+      "trading_symbol": "TATAPOWER",
+      "security_id": "3426"
+    },
+    {
+      "symbol": "TATASTEEL",
+      "trading_symbol": "TATASTEEL",
+      "security_id": "3499"
+    },
+    {
+      "symbol": "TCNSBRANDS",
+      "trading_symbol": "ABFRL",
+      "security_id": "30108"
+    },
+    {
+      "symbol": "TCS",
+      "trading_symbol": "TCS",
+      "security_id": "11536"
+    },
+    {
+      "symbol": "TEAMLEASE",
+      "trading_symbol": "TEAMLEASE",
+      "security_id": "12716"
+    },
+    {
+      "symbol": "TECHM",
+      "trading_symbol": "TECHM",
+      "security_id": "13538"
+    },
+    {
+      "symbol": "THERMAX",
+      "trading_symbol": "THERMAX",
+      "security_id": "3475"
+    },
+    {
+      "symbol": "THOMASCOOK",
+      "trading_symbol": "THOMASCOOK",
+      "security_id": "3481"
+    },
+    {
+      "symbol": "THYROCARE",
+      "trading_symbol": "THYROCARE",
+      "security_id": "17032"
+    },
+    {
+      "symbol": "TIINDIA",
+      "trading_symbol": "TIINDIA",
+      "security_id": "312"
+    },
+    {
+      "symbol": "TIMETECHNO",
+      "trading_symbol": "TIMETECHNO",
+      "security_id": "14707"
+    },
+    {
+      "symbol": "TIMKEN",
+      "trading_symbol": "TIMKEN",
+      "security_id": "14198"
+    },
+    {
+      "symbol": "TITAN",
+      "trading_symbol": "TITAN",
+      "security_id": "3506"
+    },
+    {
+      "symbol": "TNPL",
+      "trading_symbol": "TNPL",
+      "security_id": "3980"
+    },
+    {
+      "symbol": "TORNTPHARM",
+      "trading_symbol": "TORNTPHARM",
+      "security_id": "3518"
+    },
+    {
+      "symbol": "TORNTPOWER",
+      "trading_symbol": "TORNTPOWER",
+      "security_id": "13786"
+    },
+    {
+      "symbol": "TRENT",
+      "trading_symbol": "TRENT",
+      "security_id": "1964"
+    },
+    {
+      "symbol": "TRIDENT",
+      "trading_symbol": "TRIDENT",
+      "security_id": "9685"
+    },
+    {
+      "symbol": "TRITURBINE",
+      "trading_symbol": "TRITURBINE",
+      "security_id": "25584"
+    },
+    {
+      "symbol": "TTKPRESTIG",
+      "trading_symbol": "TTKPRESTIG",
+      "security_id": "3546"
+    },
+    {
+      "symbol": "TV18BRDCST",
+      "trading_symbol": "NETWORK18",
+      "security_id": "14111"
+    },
+    {
+      "symbol": "TVSMOTOR",
+      "trading_symbol": "TVSMOTOR",
+      "security_id": "8479"
+    },
+    {
+      "symbol": "TVTODAY",
+      "trading_symbol": "TVTODAY",
+      "security_id": "11275"
+    },
+    {
+      "symbol": "UBL",
+      "trading_symbol": "UBL",
+      "security_id": "16713"
+    },
+    {
+      "symbol": "UCOBANK",
+      "trading_symbol": "UCOBANK",
+      "security_id": "11223"
+    },
+    {
+      "symbol": "UFLEX",
+      "trading_symbol": "UFLEX",
+      "security_id": "1053"
+    },
+    {
+      "symbol": "UJJIVAN",
+      "trading_symbol": "UJJIVANSFB",
+      "security_id": "15228"
+    },
+    {
+      "symbol": "ULTRACEMCO",
+      "trading_symbol": "ULTRACEMCO",
+      "security_id": "11532"
+    },
+    {
+      "symbol": "UNIONBANK",
+      "trading_symbol": "UNIONBANK",
+      "security_id": "10753"
+    },
+    {
+      "symbol": "UPL",
+      "trading_symbol": "UPL",
+      "security_id": "11287"
+    },
+    {
+      "symbol": "VAKRANGEE",
+      "trading_symbol": "VAKRANGEE",
+      "security_id": "13342"
+    },
+    {
+      "symbol": "VARROC",
+      "trading_symbol": "VARROC",
+      "security_id": "3857"
+    },
+    {
+      "symbol": "VBL",
+      "trading_symbol": "VBL",
+      "security_id": "18921"
+    },
+    {
+      "symbol": "VEDL",
+      "trading_symbol": "VEDL",
+      "security_id": "3063"
+    },
+    {
+      "symbol": "VENKEYS",
+      "trading_symbol": "VENKEYS",
+      "security_id": "3757"
+    },
+    {
+      "symbol": "VGUARD",
+      "trading_symbol": "VGUARD",
+      "security_id": "15362"
+    },
+    {
+      "symbol": "VINATIORGA",
+      "trading_symbol": "VINATIORGA",
+      "security_id": "17364"
+    },
+    {
+      "symbol": "VIPIND",
+      "trading_symbol": "VIPIND",
+      "security_id": "3703"
+    },
+    {
+      "symbol": "VMART",
+      "trading_symbol": "VMART",
+      "security_id": "29284"
+    },
+    {
+      "symbol": "VOLTAS",
+      "trading_symbol": "VOLTAS",
+      "security_id": "3718"
+    },
+    {
+      "symbol": "VRLLOG",
+      "trading_symbol": "VRLLOG",
+      "security_id": "8696"
+    },
+    {
+      "symbol": "VSTIND",
+      "trading_symbol": "VSTIND",
+      "security_id": "3724"
+    },
+    {
+      "symbol": "VTL",
+      "trading_symbol": "VTL",
+      "security_id": "2073"
+    },
+    {
+      "symbol": "WABAG",
+      "trading_symbol": "WABAG",
+      "security_id": "20188"
+    },
+    {
+      "symbol": "WABCOINDIA",
+      "trading_symbol": "ZFCVINDIA",
+      "security_id": "16915"
+    },
+    {
+      "symbol": "WELCORP",
+      "trading_symbol": "WELCORP",
+      "security_id": "11821"
+    },
+    {
+      "symbol": "WELSPUNIND",
+      "trading_symbol": "WELSPUNLIV",
+      "security_id": "11253"
+    },
+    {
+      "symbol": "WHIRLPOOL",
+      "trading_symbol": "WHIRLPOOL",
+      "security_id": "18011"
+    },
+    {
+      "symbol": "WIPRO",
+      "trading_symbol": "WIPRO",
+      "security_id": "3787"
+    },
+    {
+      "symbol": "WOCKPHARMA",
+      "trading_symbol": "WOCKPHARMA",
+      "security_id": "7506"
+    },
+    {
+      "symbol": "YESBANK",
+      "trading_symbol": "YESBANK",
+      "security_id": "11915"
+    },
+    {
+      "symbol": "ZEEL",
+      "trading_symbol": "ZEEL",
+      "security_id": "3812"
+    },
+    {
+      "symbol": "ZENSARTECH",
+      "trading_symbol": "ZENSARTECH",
+      "security_id": "1076"
+    },
+    {
+      "symbol": "ZYDUSWELL",
+      "trading_symbol": "ZYDUSWELL",
+      "security_id": "17635"
+    }
+  ]
+}

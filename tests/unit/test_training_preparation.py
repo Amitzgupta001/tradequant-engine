@@ -7,6 +7,7 @@ import pandas as pd
 from app.domain.enums.market import Timeframe
 from app.domain.features import FeatureVector
 from app.domain.training import SetupType, TrainingConfig
+from app.strategy.presets import REWARD_PCT_5M, RISK_PCT_5M
 from app.ml.datasets.preparation import (
     FEATURE_COLUMNS,
     build_training_frame,
@@ -94,8 +95,8 @@ def test_intraday_training_defaults() -> None:
     """Intraday timeframes should use bar-based swing defaults."""
     config_15 = training_config_for_timeframe(Timeframe.MIN_15)
     assert config_15.forward_horizon_bars == 20
-    assert config_15.move_threshold == 0.004
+    assert config_15.move_threshold == RISK_PCT_5M * 4
 
     config_5 = training_config_for_timeframe(Timeframe.MIN_5)
     assert config_5.forward_horizon_bars == 20
-    assert config_5.move_threshold == 0.003
+    assert config_5.move_threshold == REWARD_PCT_5M

@@ -213,7 +213,11 @@ storage/models/panels/{universe_id}/{timeframe}/
 | Batch download | `app/services/batch_data_service.py` | Loop download + features with rate pause |
 | Panel loader | `app/ml/datasets/panel.py` | Merge feature CSVs across symbols |
 | Intraday chunking | `app/data/providers/historical_data_provider.py` | 90-day API chunks |
-| Best preset | `app/strategy/presets.py` | Validated 5-min train/backtest config |
+| Strategy | `app/strategies/` | 12 rule-based strategies + features |
+| Strategy ML | `app/ml/trainer/strategy_trainer.py` | Per-strategy LightGBM |
+| Selector | `app/ml/trainer/strategy_selector_trainer.py` | Multiclass meta-model |
+| Hybrid picker | `app/ml/selector/picker.py` | Model shortlist + backtest score |
+| Best preset | `app/strategy/presets.py` | 1:3 R:R, T1/T2/T3 backtest config |
 | Model registry | `app/ml/registry/model_registry.py` | Per-stock and panel model paths |
 
 ## Event pipeline (future)
@@ -232,9 +236,14 @@ storage/
   processed/   Indicator snapshots
   features/    Engineered feature CSVs
   models/
-    NSE_EQ/{security_id}/{timeframe}/   # per-stock models
+    NSE_EQ/{security_id}/{timeframe}/   # per-stock swing models
     panels/{universe_id}/{timeframe}/   # panel models
-  backtests/   Backtest results
+    {strategy_id}/v{N}/                 # per-strategy Phase 3 models
+    strategy_selector/                  # meta-model (per-stock or panels/)
+  datasets/
+    {strategy_id}/...                   # strategy ML datasets
+    strategy_selector/...               # walk-forward benchmark datasets
+  backtests/   Backtest results (+ strategies/ subdir)
   logs/        Long-running job logs (optional)
 ```
 
@@ -261,5 +270,6 @@ Environment variables (see `.env.example`):
 ## Documentation
 
 - [CLI Reference](CLI.md)
+- [Strategy Selector](STRATEGY_SELECTOR.md)
 - [ML Training](ML_TRAINING.md)
 - [Stock Universes](UNIVERSES.md)

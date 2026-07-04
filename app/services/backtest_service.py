@@ -137,6 +137,7 @@ class BacktestService:
             predictor,
             metadata=metadata,
             probability_threshold=config.probability_threshold,
+            config=config,
         )
 
     def _build_panel_strategy(
@@ -153,6 +154,7 @@ class BacktestService:
             predictor,
             metadata=metadata,
             probability_threshold=config.probability_threshold,
+            config=config,
         )
 
     def _run_instrument(

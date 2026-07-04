@@ -67,3 +67,67 @@ def test_trailing_stop_exits_losing_trade() -> None:
     assert portfolio.sell(stop_price, entry_time, exit_reason="stop_loss")
     assert portfolio.trades[0].exit_reason == "stop_loss"
     assert portfolio.trades[0].pnl < 0
+
+
+def test_scaled_targets_book_partial_legs() -> None:
+    """T1/T2/T3 should book quantity in separate trade legs."""
+    config = BacktestConfig(
+        initial_capital=100_000.0,
+        commission_pct=0.0,
+        stop_loss_pct=0.01,
+        use_scaled_targets=True,
+        target_1_pct=0.005,
+        target_2_pct=0.010,
+        target_3_pct=0.015,
+        target_1_qty_pct=0.33,
+        target_2_qty_pct=0.33,
+        move_stop_to_breakeven_after_t1=True,
+    )
+    portfolio = Portfolio(config)
+    entry_time = datetime(2024, 1, 1, 9, 30, tzinfo=timezone.utc)
+
+    assert portfolio.buy(100.0, entry_time)
+    initial_qty = portfolio.quantity
+
+    portfolio.process_profit_targets(
+        Candle(
+            timestamp=entry_time,
+            open=100.2,
+            high=100.6,
+            low=100.1,
+            close=100.5,
+            volume=1000,
+        )
+    )
+    assert portfolio.is_long
+    assert len(portfolio.trades) == 1
+    assert portfolio.trades[0].exit_reason == "target_1"
+    assert portfolio.trades[0].quantity == max(1, int(initial_qty * 0.33))
+
+    portfolio.process_profit_targets(
+        Candle(
+            timestamp=entry_time,
+            open=100.8,
+            high=101.1,
+            low=100.7,
+            close=101.0,
+            volume=1000,
+        )
+    )
+    assert len(portfolio.trades) == 2
+    assert portfolio.trades[1].exit_reason == "target_2"
+
+    portfolio.process_profit_targets(
+        Candle(
+            timestamp=entry_time,
+            open=101.3,
+            high=101.6,
+            low=101.2,
+            close=101.5,
+            volume=1000,
+        )
+    )
+    assert not portfolio.is_long
+    assert len(portfolio.trades) == 3
+    assert portfolio.trades[2].exit_reason == "target_3"
+    assert sum(trade.quantity for trade in portfolio.trades) == initial_qty

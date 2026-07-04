@@ -25,8 +25,41 @@ class BacktestConfig(BaseModel):
     stop_loss_pct: float = Field(default=0.01, ge=0.0, le=0.05)
     trailing_stop_pct: float = Field(default=0.006, ge=0.0, le=0.05)
     trailing_activation_pct: float = Field(default=0.008, ge=0.0, le=0.05)
-    atr_stop_multiplier: float = Field(default=2.0, ge=0.5, le=5.0)
+    atr_stop_multiplier: float = Field(
+        default=2.0,
+        ge=0.0,
+        le=5.0,
+        description="Set to 0 to use fixed stop_loss_pct only (no ATR widening)",
+    )
     max_hold_bars: int | None = Field(default=20, ge=1)
+    min_bars_between_entries: int = Field(default=0, ge=0)
+    max_trades_per_day: int | None = Field(default=None, ge=1)
+    cooldown_bars_after_stop: int = Field(default=0, ge=0)
+    exit_confirmation_bars: int = Field(
+        default=1,
+        ge=1,
+        description="Consecutive non-BUY bars required before signal exit",
+    )
+    min_expected_value: float | None = Field(
+        default=None,
+        description="Minimum EV = p*avg_win - (1-p)*avg_loss to enter (disabled when None)",
+    )
+    expected_win_pct: float = Field(default=0.003, ge=0.0)
+    expected_loss_pct: float = Field(default=0.007, ge=0.0)
+    require_strategy_signal: bool = Field(
+        default=False,
+        description="Only enter when underlying strategy signal is active",
+    )
+    use_scaled_targets: bool = Field(
+        default=False,
+        description="Enable T1/T2/T3 partial profit booking",
+    )
+    target_1_pct: float = Field(default=0.005, ge=0.0, le=0.2)
+    target_2_pct: float = Field(default=0.010, ge=0.0, le=0.2)
+    target_3_pct: float = Field(default=0.015, ge=0.0, le=0.2)
+    target_1_qty_pct: float = Field(default=0.33, gt=0.0, le=1.0)
+    target_2_qty_pct: float = Field(default=0.33, gt=0.0, le=1.0)
+    move_stop_to_breakeven_after_t1: bool = True
 
 
 class BacktestTrade(BaseModel):

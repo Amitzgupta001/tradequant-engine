@@ -21,10 +21,10 @@ Validated 5-minute intraday configuration from backtest experiments on HDFC Bank
 | Lookback | 365 days |
 | Setup | Long (RSI/BB oversold) |
 | Forward horizon | 20 bars (~100 minutes) |
-| Move threshold | 0.3% |
-| Model threshold | Auto-tuned on validation set |
-| Stop loss (backtest) | 1% (2× ATR floor) |
-| Trailing stop | 0.6% after +0.8% profit |
+| Move threshold | 1.5% (1:3 R:R) |
+| Model threshold | Auto-tuned (profit factor objective) |
+| Stop loss (backtest) | 0.5% fixed |
+| Partial exits | T1/T2/T3 at +0.5% / +1.0% / +1.5% |
 | Max hold | 20 bars |
 
 Defined in `app/strategy/presets.py` as `BEST_5M_TRAINING` and `BEST_5M_BACKTEST`.
@@ -54,7 +54,9 @@ Long setups (default) keep rows where any of:
 - Bollinger position &lt; 0.15
 - RSI &lt; 45 and MACD histogram &gt; 0
 
-Labels use `swing_setup_label`: success if forward return exceeds `move_threshold` (0.3% for 5-min preset).
+Labels use `swing_setup_label`: success if forward return exceeds `move_threshold` (1.5% for 5-min preset).
+
+For the **multi-strategy path** (Phase 3), see [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md).
 
 ## Threshold tuning
 

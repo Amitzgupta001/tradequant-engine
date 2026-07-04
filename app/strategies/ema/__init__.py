@@ -1,0 +1,1 @@
+"""EMA strategy implementations."""

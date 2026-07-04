@@ -257,6 +257,9 @@ class LightGBMTrainer:
             threshold, validation_accuracy, val_signals, _ = find_best_threshold(
                 y_val.astype(int).tolist(),
                 val_prob,
+                objective=config.threshold_objective.value,
+                win_pct=config.assumed_win_pct,
+                loss_pct=config.assumed_loss_pct,
             )
             if val_signals == 0:
                 threshold = float(np.percentile(val_prob, 75))

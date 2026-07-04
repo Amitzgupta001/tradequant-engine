@@ -17,7 +17,12 @@ PYTHONPATH=. python3 -m app.cli <command> [options]
 | `features` | Build ML feature vectors from stored OHLCV |
 | `batch-download` | Download OHLCV + features for an entire universe |
 | `train` | Train a LightGBM model (single stock or panel) |
-| `backtest` | Run ML strategy backtest on stored data |
+| `backtest` | Run ML swing strategy backtest on stored data |
+| `backtest-strategy` | Backtest a Phase 3 per-strategy model |
+| `backtest-sweep` | Grid-search ML backtest parameters |
+| `backtest-auto` | Rolling backtest with strategy selector (default) |
+| `train-strategy-selector` | Train meta-model on walk-forward strategy benchmarks |
+| `recommend-strategy` | Recommend best strategy for current conditions |
 
 ---
 
@@ -210,7 +215,156 @@ storage/backtests/NSE_EQ/{security_id}/{timeframe}/
 
 ---
 
+## backtest-strategy
+
+Backtest one Phase 3 strategy (rule signal + per-strategy LightGBM filter).
+
+```bash
+PYTHONPATH=. python3 -m app.cli backtest-strategy \
+  --strategy-id breakout \
+  --security-id 25 \
+  --timeframe MIN_5 \
+  --preset best
+```
+
+| Option | Description |
+|---|---|
+| `--strategy-id` | required — e.g. `breakout`, `ema_pullback`, `macd_momentum` |
+| `--retrain` | Retrain strategy model before backtest |
+| `--security-id` | required |
+| `--preset` | `best` — 1:3 R:R, T1/T2/T3 partial exits |
+
+**Output:** `storage/backtests/strategies/{strategy_id}/NSE_EQ/{id}/min_5/`
+
+See [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md) for all strategy IDs.
+
+---
+
+## backtest-sweep
+
+Grid-search probability threshold, stop loss, and max hold for the ML swing path:
+
+```bash
+PYTHONPATH=. python3 -m app.cli backtest-sweep \
+  --security-id 25 \
+  --timeframe MIN_5 \
+  --preset best
+```
+
+**Output:** `storage/backtests/sweeps/{security_id}_{timeframe}.json`
+
+---
+
+## train-strategy-selector
+
+Build walk-forward benchmarks across all strategies and train a multiclass selector model.
+
+### Single stock
+
+```bash
+PYTHONPATH=. python3 -m app.cli train-strategy-selector \
+  --security-id 25 \
+  --timeframe MIN_5 \
+  --preset best \
+  --rebuild-dataset
+```
+
+### Pooled universe
+
+```bash
+PYTHONPATH=. python3 -m app.cli train-strategy-selector \
+  --universe nifty50 \
+  --timeframe MIN_5 \
+  --preset best
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--security-id` | — | Single stock (omit with `--universe`) |
+| `--universe` | — | `nifty50` or `nifty500` — pooled selector |
+| `--train-window` | `400` | Rolling train bars per benchmark window |
+| `--step-size` | `50` | Eval bars per window |
+| `--min-trades` | `2` | Min trades to score a strategy in a window |
+| `--objective` | `profit_factor` | `profit_factor`, `total_return`, or `sharpe` |
+| `--rebuild-dataset` | off | Force fresh benchmark build |
+| `--skip-strategy-training` | off | Skip auto-training missing per-strategy models |
+| `--preset` | — | `best` backtest config for mini-backtests |
+
+**Output:** `storage/models/strategy_selector/...` — see [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md)
+
+---
+
+## recommend-strategy
+
+Recommend strategies using the trained selector (hybrid: model + backtest priors).
+
+```bash
+PYTHONPATH=. python3 -m app.cli recommend-strategy \
+  --security-id 25 \
+  --timeframe MIN_5
+
+# Use pooled Nifty 50 model on any symbol
+PYTHONPATH=. python3 -m app.cli recommend-strategy \
+  --security-id 25 \
+  --universe nifty50 \
+  --timeframe MIN_5
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--security-id` | required | Instrument to analyze |
+| `--universe` | — | Load pooled selector for this universe |
+| `--selector-version` | latest | Specific selector model version |
+| `--top-n` | `5` | Number of ranked recommendations |
+
+---
+
+## backtest-auto
+
+Rolling backtest that switches strategy each walk-forward window (default mode).
+
+```bash
+PYTHONPATH=. python3 -m app.cli backtest-auto \
+  --security-id 25 \
+  --timeframe MIN_5 \
+  --preset best
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--mode` | `rolling` | `rolling` (per-window switch) or `single` (latest pick, full history) |
+| `--universe` | — | Use pooled selector model |
+| `--selector-version` | latest | Specific selector version |
+| `--retrain` | off | Retrain recommended strategy model (`single` mode only) |
+| `--preset` | — | `best` backtest config |
+
+Falls back to regime-based rules when no selector model is available.
+
+---
+
 ## Typical Workflows
+
+### Phase 3 strategy selector (ADANIENT)
+
+```bash
+# Train selector (long — all strategies × walk-forward windows)
+PYTHONPATH=. python3 -m app.cli train-strategy-selector \
+  --security-id 25 --timeframe MIN_5 --preset best --rebuild-dataset
+
+# Best single strategy (baseline)
+PYTHONPATH=. python3 -m app.cli backtest-strategy \
+  --strategy-id breakout --security-id 25 --timeframe MIN_5 --preset best
+
+# Rolling auto-backtest
+PYTHONPATH=. python3 -m app.cli backtest-auto \
+  --security-id 25 --timeframe MIN_5 --preset best
+
+# Live recommendation
+PYTHONPATH=. python3 -m app.cli recommend-strategy \
+  --security-id 25 --timeframe MIN_5
+```
+
+See [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md) for architecture and pooled universe training.
 
 ### Quick single-stock experiment (HDFC Bank)
 

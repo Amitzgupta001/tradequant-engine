@@ -1,0 +1,1 @@
+"""Opening range breakout strategy."""

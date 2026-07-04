@@ -30,6 +30,14 @@ from app.services.historical_data_service import HistoricalDataService
 from app.services.indicator_service import IndicatorService
 from app.data.universe import get_universe, list_universes
 from app.services.batch_data_service import BatchDataService
+from app.backtest.sweep import BacktestSweep
+from app.services.strategy_backtest_service import StrategyBacktestService
+from app.services.strategy_selector_service import StrategySelectorService
+from app.ml.datasets.strategy_selector_builder import (
+    SelectionObjective,
+    StrategySelectorBuilderConfig,
+)
+from app.strategy.ml_strategy import MLStrategy
 from app.services.training_service import TrainingService
 from app.domain.training import SetupType, TrainingConfig, TrainingTask
 from app.ml.datasets.preparation import training_config_for_timeframe
@@ -199,14 +207,27 @@ def _apply_backtest_preset(args: argparse.Namespace) -> None:
     args.trailing_stop_pct = preset.trailing_stop_pct
     args.trailing_activation_pct = preset.trailing_activation_pct
     args.max_hold_bars = preset.max_hold_bars
-    args.probability_threshold = None
+    args.atr_stop_multiplier = preset.atr_stop_multiplier
+    args.probability_threshold = preset.probability_threshold
+    args.min_bars_between_entries = preset.min_bars_between_entries
+    args.max_trades_per_day = preset.max_trades_per_day
+    args.cooldown_bars_after_stop = preset.cooldown_bars_after_stop
+    args.exit_confirmation_bars = preset.exit_confirmation_bars
+    args.min_expected_value = preset.min_expected_value
+    args.expected_win_pct = preset.expected_win_pct
+    args.expected_loss_pct = preset.expected_loss_pct
+    args.use_scaled_targets = preset.use_scaled_targets
+    args.target_1_pct = preset.target_1_pct
+    args.target_2_pct = preset.target_2_pct
+    args.target_3_pct = preset.target_3_pct
+    args.target_1_qty_pct = preset.target_1_qty_pct
+    args.target_2_qty_pct = preset.target_2_qty_pct
+    args.move_stop_to_breakeven_after_t1 = preset.move_stop_to_breakeven_after_t1
 
 
-def cmd_backtest(args: argparse.Namespace) -> int:
-    """Run ML strategy backtest on stored data."""
-    _apply_backtest_preset(args)
-    timeframe = Timeframe(args.timeframe)
-    config = BacktestConfig(
+def _build_backtest_config(args: argparse.Namespace) -> BacktestConfig:
+    """Build BacktestConfig from CLI args."""
+    return BacktestConfig(
         initial_capital=args.initial_capital,
         probability_threshold=args.probability_threshold,
         commission_pct=args.commission_pct,
@@ -214,7 +235,82 @@ def cmd_backtest(args: argparse.Namespace) -> int:
         trailing_stop_pct=args.trailing_stop_pct,
         trailing_activation_pct=args.trailing_activation_pct,
         max_hold_bars=args.max_hold_bars,
+        atr_stop_multiplier=args.atr_stop_multiplier,
+        min_bars_between_entries=args.min_bars_between_entries,
+        max_trades_per_day=args.max_trades_per_day,
+        cooldown_bars_after_stop=args.cooldown_bars_after_stop,
+        exit_confirmation_bars=args.exit_confirmation_bars,
+        min_expected_value=args.min_expected_value,
+        expected_win_pct=args.expected_win_pct,
+        expected_loss_pct=args.expected_loss_pct,
+        use_scaled_targets=args.use_scaled_targets,
+        target_1_pct=args.target_1_pct,
+        target_2_pct=args.target_2_pct,
+        target_3_pct=args.target_3_pct,
+        target_1_qty_pct=args.target_1_qty_pct,
+        target_2_qty_pct=args.target_2_qty_pct,
+        move_stop_to_breakeven_after_t1=args.move_stop_to_breakeven_after_t1,
     )
+
+
+def _add_backtest_arguments(
+    parser: argparse.ArgumentParser,
+    *,
+    include_universe: bool = False,
+    universe_help: str = "Backtest all symbols using a panel model",
+) -> None:
+    """Register shared backtest CLI arguments."""
+    parser.add_argument("--security-id", default=None, help="Single instrument (omit with --universe)")
+    if include_universe:
+        parser.add_argument(
+            "--universe",
+            choices=list_universes(),
+            default=None,
+            help=universe_help,
+        )
+    parser.add_argument("--exchange", default="NSE_EQ")
+    parser.add_argument("--instrument-type", default="EQUITY")
+    parser.add_argument("--symbol", default=None)
+    parser.add_argument("--timeframe", default="DAILY")
+    parser.add_argument("--initial-capital", type=float, default=100_000.0)
+    parser.add_argument("--preset", choices=["best"], default=None, help="Use validated best strategy preset")
+    parser.add_argument("--probability-threshold", type=float, default=None)
+    parser.add_argument("--commission-pct", type=float, default=0.0003)
+    parser.add_argument("--stop-loss-pct", type=float, default=0.01)
+    parser.add_argument("--trailing-stop-pct", type=float, default=0.006)
+    parser.add_argument("--trailing-activation-pct", type=float, default=0.008)
+    parser.add_argument("--max-hold-bars", type=int, default=20)
+    parser.add_argument("--atr-stop-multiplier", type=float, default=2.0)
+    parser.add_argument("--min-bars-between-entries", type=int, default=0)
+    parser.add_argument("--max-trades-per-day", type=int, default=None)
+    parser.add_argument("--cooldown-bars-after-stop", type=int, default=0)
+    parser.add_argument("--exit-confirmation-bars", type=int, default=1)
+    parser.add_argument("--min-expected-value", type=float, default=None)
+    parser.add_argument("--expected-win-pct", type=float, default=0.003)
+    parser.add_argument("--expected-loss-pct", type=float, default=0.007)
+    parser.add_argument("--use-scaled-targets", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--target-1-pct", type=float, default=0.005)
+    parser.add_argument("--target-2-pct", type=float, default=0.010)
+    parser.add_argument("--target-3-pct", type=float, default=0.015)
+    parser.add_argument("--target-1-qty-pct", type=float, default=0.33)
+    parser.add_argument("--target-2-qty-pct", type=float, default=0.33)
+    parser.add_argument(
+        "--move-stop-to-breakeven-after-t1",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+    )
+    parser.add_argument(
+        "--per-symbol",
+        action="store_true",
+        help="Save individual backtest reports for each symbol in a panel run",
+    )
+
+
+def cmd_backtest(args: argparse.Namespace) -> int:
+    """Run ML strategy backtest on stored data."""
+    _apply_backtest_preset(args)
+    timeframe = Timeframe(args.timeframe)
+    config = _build_backtest_config(args)
     service = _build_backtest_service()
 
     if args.universe:
@@ -260,6 +356,299 @@ def cmd_backtest(args: argparse.Namespace) -> int:
         "trade_count": len(result.trades),
     }
     print(json.dumps(output, indent=2))
+    return 0
+
+
+def cmd_backtest_sweep(args: argparse.Namespace) -> int:
+    """Grid-search backtest parameters for a single instrument."""
+    _apply_backtest_preset(args)
+    timeframe = Timeframe(args.timeframe)
+    base_config = _build_backtest_config(args)
+    instrument = Instrument(
+        security_id=args.security_id,
+        exchange_segment=ExchangeSegment(args.exchange),
+        instrument_type=InstrumentType(args.instrument_type),
+        symbol=args.symbol,
+    )
+    service = _build_backtest_service()
+    historical = service._historical_repository.load(instrument, timeframe)
+    features = service._feature_repository.load(instrument, timeframe)
+
+    def strategy_factory(config: BacktestConfig) -> MLStrategy:
+        return service._build_strategy(
+            instrument.exchange_segment.value,
+            instrument.security_id,
+            timeframe.value,
+            config=config,
+        )
+
+    grid = {
+        "probability_threshold": [0.45, 0.50, 0.55],
+        "stop_loss_pct": [0.007, 0.010],
+        "max_hold_bars": [15, 20],
+    }
+    results = BacktestSweep().run(
+        instrument,
+        timeframe,
+        historical.candles,
+        features,
+        strategy_factory(base_config),
+        base_config,
+        grid,
+        strategy_factory=strategy_factory,
+    )
+    settings = get_settings()
+    output_path = settings.storage_path / "backtests" / "sweeps" / f"{args.security_id}_{timeframe.value.lower()}.json"
+    BacktestSweep.save(results, output_path)
+    print(json.dumps({"sweep_path": str(output_path), "top_5": [item.model_dump() for item in results[:5]]}, indent=2))
+    return 0
+
+
+def cmd_backtest_strategy(args: argparse.Namespace) -> int:
+    """Run Phase 3 per-strategy model backtest."""
+    _apply_backtest_preset(args)
+    timeframe = Timeframe(args.timeframe)
+    config = _build_backtest_config(args).model_copy(update={"require_strategy_signal": True})
+    instrument = Instrument(
+        security_id=args.security_id,
+        exchange_segment=ExchangeSegment(args.exchange),
+        instrument_type=InstrumentType(args.instrument_type),
+        symbol=args.symbol,
+    )
+    service = StrategyBacktestService(_build_repository())
+    result, summary_path = service.run(
+        args.strategy_id,
+        instrument,
+        timeframe,
+        config=config,
+        retrain=args.retrain,
+    )
+    print(
+        json.dumps(
+            {
+                "strategy_id": args.strategy_id,
+                "summary_path": str(summary_path) if summary_path else None,
+                "metrics": result.metrics.model_dump(),
+                "trade_count": len(result.trades),
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+def cmd_train_strategy_selector(args: argparse.Namespace) -> int:
+    """Train meta-model on walk-forward backtests across all strategies."""
+    _apply_backtest_preset(args)
+    timeframe = Timeframe(args.timeframe)
+    config = _build_backtest_config(args).model_copy(update={"require_strategy_signal": True})
+    builder_config = StrategySelectorBuilderConfig(
+        train_window=args.train_window,
+        step_size=args.step_size,
+        min_trades=args.min_trades,
+        objective=SelectionObjective(args.objective),
+    )
+    service = StrategySelectorService(_build_repository())
+
+    if args.universe:
+        universe = get_universe(args.universe)
+        metadata = service.train_panel(
+            universe,
+            timeframe,
+            backtest_config=config,
+            builder_config=builder_config,
+            rebuild_dataset=args.rebuild_dataset,
+            train_strategy_models=not args.skip_strategy_training,
+        )
+        meta = service.simulate_meta_backtest(
+            universe=universe,
+            timeframe=timeframe,
+            selector_version=metadata.version,
+        )
+        output = {
+            "universe": args.universe,
+            "selector_version": metadata.version,
+            "constituent_count": metadata.constituent_count,
+            "strategy_ids": metadata.strategy_ids,
+            "objective": metadata.objective.value,
+            "metrics": metadata.metrics.model_dump(),
+            "backtest_tuning": metadata.backtest_metrics.model_dump() if metadata.backtest_metrics else None,
+            "min_confidence": metadata.min_confidence,
+            "meta_backtest": {
+                "windows": meta.windows,
+                "selected_windows": meta.selected_windows,
+                "cumulative_return_pct": meta.cumulative_return_pct,
+                "selector_hit_rate": meta.selector_hit_rate,
+                "top_strategy_counts": meta.top_strategy_counts,
+            },
+        }
+    else:
+        instrument = Instrument(
+            security_id=args.security_id,
+            exchange_segment=ExchangeSegment(args.exchange),
+            instrument_type=InstrumentType(args.instrument_type),
+            symbol=args.symbol,
+        )
+        metadata = service.train(
+            instrument,
+            timeframe,
+            backtest_config=config,
+            builder_config=builder_config,
+            rebuild_dataset=args.rebuild_dataset,
+            train_strategy_models=not args.skip_strategy_training,
+        )
+        meta = service.simulate_meta_backtest(
+            instrument,
+            timeframe,
+            selector_version=metadata.version,
+        )
+        output = {
+            "security_id": args.security_id,
+            "selector_version": metadata.version,
+            "strategy_ids": metadata.strategy_ids,
+            "objective": metadata.objective.value,
+            "metrics": metadata.metrics.model_dump(),
+            "backtest_tuning": metadata.backtest_metrics.model_dump() if metadata.backtest_metrics else None,
+            "min_confidence": metadata.min_confidence,
+            "meta_backtest": {
+                "windows": meta.windows,
+                "selected_windows": meta.selected_windows,
+                "cumulative_return_pct": meta.cumulative_return_pct,
+                "selector_hit_rate": meta.selector_hit_rate,
+                "top_strategy_counts": meta.top_strategy_counts,
+            },
+        }
+
+    print(json.dumps(output, indent=2))
+    return 0
+
+
+def cmd_recommend_strategy(args: argparse.Namespace) -> int:
+    """Recommend best strategy for current market conditions."""
+    timeframe = Timeframe(args.timeframe)
+    instrument = Instrument(
+        security_id=args.security_id,
+        exchange_segment=ExchangeSegment(args.exchange),
+        instrument_type=InstrumentType(args.instrument_type),
+        symbol=args.symbol,
+    )
+    service = StrategySelectorService(_build_repository())
+    recommendations = service.recommend(
+        instrument,
+        timeframe,
+        selector_version=args.selector_version,
+        universe_id=args.universe,
+        top_n=args.top_n,
+    )
+    print(
+        json.dumps(
+            {
+                "security_id": args.security_id,
+                "universe": args.universe,
+                "timeframe": timeframe.value,
+                "recommendations": [item.model_dump(mode="json") for item in recommendations],
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+def cmd_backtest_auto(args: argparse.Namespace) -> int:
+    """Backtest using the selector-recommended strategy."""
+    _apply_backtest_preset(args)
+    timeframe = Timeframe(args.timeframe)
+    config = _build_backtest_config(args).model_copy(update={"require_strategy_signal": True})
+    instrument = Instrument(
+        security_id=args.security_id,
+        exchange_segment=ExchangeSegment(args.exchange),
+        instrument_type=InstrumentType(args.instrument_type),
+        symbol=args.symbol,
+    )
+    service = StrategySelectorService(_build_repository())
+    recommendations = service.recommend(
+        instrument,
+        timeframe,
+        selector_version=args.selector_version,
+        universe_id=args.universe,
+        top_n=3,
+    )
+
+    if args.mode == "single":
+        strategy_id, result, recommendations = service.backtest_recommended(
+            instrument,
+            timeframe,
+            backtest_config=config,
+            selector_version=args.selector_version,
+            universe_id=args.universe,
+            retrain=args.retrain,
+        )
+        meta = service.simulate_meta_backtest(
+            instrument,
+            timeframe,
+            selector_version=args.selector_version,
+            universe_id=args.universe,
+        )
+        print(
+            json.dumps(
+                {
+                    "mode": "single",
+                    "recommended_strategy_id": strategy_id,
+                    "universe": args.universe,
+                    "recommendations": [item.model_dump(mode="json") for item in recommendations],
+                    "backtest_metrics": result.metrics.model_dump(),
+                    "trade_count": len(result.trades),
+                    "meta_backtest": {
+                        "cumulative_return_pct": meta.cumulative_return_pct,
+                        "selector_hit_rate": meta.selector_hit_rate,
+                        "selected_windows": meta.selected_windows,
+                        "top_strategy_counts": meta.top_strategy_counts,
+                    },
+                },
+                indent=2,
+            )
+        )
+        return 0
+
+    rolling = service.backtest_rolling(
+        instrument,
+        timeframe,
+        backtest_config=config,
+        selector_version=args.selector_version,
+        universe_id=args.universe,
+    )
+    meta = service.simulate_meta_backtest(
+        instrument,
+        timeframe,
+        selector_version=args.selector_version,
+        universe_id=args.universe,
+    )
+    print(
+        json.dumps(
+            {
+                "mode": "rolling",
+                "universe": args.universe,
+                "recommendations": [item.model_dump(mode="json") for item in recommendations],
+                "rolling_backtest": {
+                    "windows": rolling.windows,
+                    "traded_windows": rolling.traded_windows,
+                    "skipped_low_confidence": rolling.skipped_low_confidence,
+                    "compounded_return_pct": rolling.compounded_return_pct,
+                    "total_trades": rolling.total_trades,
+                    "strategy_counts": rolling.strategy_counts,
+                    "initial_capital": rolling.initial_capital,
+                    "final_equity": rolling.final_equity,
+                },
+                "meta_backtest_simulated": {
+                    "cumulative_return_pct": meta.cumulative_return_pct,
+                    "selector_hit_rate": meta.selector_hit_rate,
+                    "selected_windows": meta.selected_windows,
+                    "top_strategy_counts": meta.top_strategy_counts,
+                },
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
@@ -397,31 +786,81 @@ def build_parser() -> argparse.ArgumentParser:
     features_cmd.set_defaults(func=cmd_features)
 
     backtest = subparsers.add_parser("backtest", help="Run ML strategy backtest (Phase 5)")
-    backtest.add_argument("--security-id", default=None, help="Single instrument (omit with --universe)")
-    backtest.add_argument(
+    _add_backtest_arguments(backtest, include_universe=True)
+    backtest.set_defaults(func=cmd_backtest)
+
+    sweep = subparsers.add_parser("backtest-sweep", help="Grid-search backtest parameters")
+    _add_backtest_arguments(sweep)
+    sweep.set_defaults(func=cmd_backtest_sweep)
+
+    strategy_bt = subparsers.add_parser("backtest-strategy", help="Backtest a Phase 3 strategy model")
+    _add_backtest_arguments(strategy_bt)
+    strategy_bt.add_argument("--strategy-id", required=True)
+    strategy_bt.add_argument("--retrain", action="store_true")
+    strategy_bt.set_defaults(func=cmd_backtest_strategy)
+
+    selector_train = subparsers.add_parser(
+        "train-strategy-selector",
+        help="Train meta-model on walk-forward backtests across all strategies",
+    )
+    _add_backtest_arguments(
+        selector_train,
+        include_universe=True,
+        universe_help="Train pooled selector on this universe (omit --security-id)",
+    )
+    selector_train.add_argument("--train-window", type=int, default=400)
+    selector_train.add_argument("--step-size", type=int, default=50)
+    selector_train.add_argument("--min-trades", type=int, default=2)
+    selector_train.add_argument(
+        "--objective",
+        choices=[item.value for item in SelectionObjective],
+        default=SelectionObjective.PROFIT_FACTOR.value,
+    )
+    selector_train.add_argument("--rebuild-dataset", action="store_true")
+    selector_train.add_argument(
+        "--skip-strategy-training",
+        action="store_true",
+        help="Do not auto-train missing per-strategy models",
+    )
+    selector_train.set_defaults(func=cmd_train_strategy_selector)
+
+    recommend = subparsers.add_parser(
+        "recommend-strategy",
+        help="Recommend best strategy using backtest-tuned selector model",
+    )
+    recommend.add_argument("--security-id", required=True)
+    recommend.add_argument("--exchange", default="NSE_EQ")
+    recommend.add_argument("--instrument-type", default="EQUITY")
+    recommend.add_argument("--symbol", default=None)
+    recommend.add_argument("--timeframe", default="MIN_5")
+    recommend.add_argument(
         "--universe",
         choices=list_universes(),
         default=None,
-        help="Backtest all symbols using a panel model",
+        help="Use pooled selector model trained on this universe",
     )
-    backtest.add_argument("--exchange", default="NSE_EQ")
-    backtest.add_argument("--instrument-type", default="EQUITY")
-    backtest.add_argument("--symbol", default=None)
-    backtest.add_argument("--timeframe", default="DAILY")
-    backtest.add_argument("--initial-capital", type=float, default=100_000.0)
-    backtest.add_argument("--preset", choices=["best"], default=None, help="Use validated best strategy preset")
-    backtest.add_argument("--probability-threshold", type=float, default=None)
-    backtest.add_argument("--commission-pct", type=float, default=0.0003)
-    backtest.add_argument("--stop-loss-pct", type=float, default=0.01)
-    backtest.add_argument("--trailing-stop-pct", type=float, default=0.006)
-    backtest.add_argument("--trailing-activation-pct", type=float, default=0.008)
-    backtest.add_argument("--max-hold-bars", type=int, default=20)
-    backtest.add_argument(
-        "--per-symbol",
-        action="store_true",
-        help="Save individual backtest reports for each symbol in a panel run",
+    recommend.add_argument("--selector-version", type=int, default=None)
+    recommend.add_argument("--top-n", type=int, default=5)
+    recommend.set_defaults(func=cmd_recommend_strategy)
+
+    auto_bt = subparsers.add_parser(
+        "backtest-auto",
+        help="Run backtest with selector-recommended strategy",
     )
-    backtest.set_defaults(func=cmd_backtest)
+    _add_backtest_arguments(
+        auto_bt,
+        include_universe=True,
+        universe_help="Use pooled selector model trained on this universe",
+    )
+    auto_bt.add_argument("--selector-version", type=int, default=None)
+    auto_bt.add_argument(
+        "--mode",
+        choices=["rolling", "single"],
+        default="rolling",
+        help="rolling switches strategy per window (default); single uses latest pick on full history",
+    )
+    auto_bt.add_argument("--retrain", action="store_true")
+    auto_bt.set_defaults(func=cmd_backtest_auto)
 
     batch_dl = subparsers.add_parser(
         "batch-download",
@@ -508,6 +947,23 @@ def _validate_train_args(args: argparse.Namespace) -> None:
         raise SystemExit(msg)
 
 
+def _validate_selector_train_args(args: argparse.Namespace) -> None:
+    """Ensure selector train command has security-id or universe."""
+    if not args.universe and not args.security_id:
+        msg = "train-strategy-selector requires --security-id or --universe"
+        raise SystemExit(msg)
+    if args.universe and args.security_id:
+        msg = "train-strategy-selector accepts --security-id or --universe, not both"
+        raise SystemExit(msg)
+
+
+def _validate_selector_infer_args(args: argparse.Namespace) -> None:
+    """Ensure recommend/backtest-auto have security-id."""
+    if not args.security_id:
+        msg = f"{args.command} requires --security-id"
+        raise SystemExit(msg)
+
+
 def main(argv: list[str] | None = None) -> int:
     """CLI main entry point."""
     settings = get_settings()
@@ -518,6 +974,12 @@ def main(argv: list[str] | None = None) -> int:
         _validate_train_args(args)
     if args.command == "backtest":
         _validate_backtest_args(args)
+    if args.command in ("backtest-sweep", "backtest-strategy") and not args.security_id:
+        raise SystemExit(f"{args.command} requires --security-id")
+    if args.command == "train-strategy-selector":
+        _validate_selector_train_args(args)
+    if args.command in ("recommend-strategy", "backtest-auto"):
+        _validate_selector_infer_args(args)
     try:
         return args.func(args)
     except NotImplementedError as exc:

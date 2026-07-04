@@ -65,42 +65,103 @@ def signal_hit_rate(y_true: list[int], y_prob: list[float], threshold: float) ->
     return len(signals), hits / len(signals)
 
 
+def simulated_profit_factor(
+    y_true: list[int],
+    y_prob: list[float],
+    threshold: float,
+    win_pct: float,
+    loss_pct: float,
+) -> tuple[float | None, int]:
+    """Estimate profit factor for long signals at a threshold."""
+    wins = 0.0
+    losses = 0.0
+    count = 0
+    for label, probability in zip(y_true, y_prob, strict=True):
+        if probability < threshold:
+            continue
+        count += 1
+        if label == 1:
+            wins += win_pct
+        else:
+            losses += loss_pct
+    if count == 0 or losses == 0:
+        return None, count
+    return wins / losses, count
+
+
+def simulated_sharpe(
+    y_true: list[int],
+    y_prob: list[float],
+    threshold: float,
+    win_pct: float,
+    loss_pct: float,
+) -> tuple[float | None, int]:
+    """Estimate Sharpe from simulated trade returns at a threshold."""
+    returns: list[float] = []
+    for label, probability in zip(y_true, y_prob, strict=True):
+        if probability < threshold:
+            continue
+        returns.append(win_pct if label == 1 else -loss_pct)
+    if len(returns) < 2:
+        return None, len(returns)
+    mean_return = sum(returns) / len(returns)
+    variance = sum((value - mean_return) ** 2 for value in returns) / len(returns)
+    if variance == 0:
+        return None, len(returns)
+    return mean_return / (variance**0.5), len(returns)
+
+
 def find_best_threshold(
     y_true: list[int],
     y_prob: list[float],
     min_signals: int = 5,
+    objective: str = "hit_rate",
+    win_pct: float = 0.003,
+    loss_pct: float = 0.007,
 ) -> tuple[float, float | None, int, float | None]:
-    """Find threshold that maximizes validation signal hit rate."""
+    """Find threshold that maximizes the selected validation objective."""
     if not y_prob:
         return 0.5, None, 0, None
 
     best_threshold = 0.5
-    best_hit_rate = -1.0
+    best_score = -1.0
     best_signal_count = 0
+    best_secondary: float | None = None
 
     for threshold in np.arange(0.15, 0.91, 0.01):
         count, hit_rate = signal_hit_rate(y_true, y_prob, float(threshold))
-        if count < min_signals or hit_rate is None:
+        if objective == "profit_factor":
+            score, count = simulated_profit_factor(y_true, y_prob, float(threshold), win_pct, loss_pct)
+            secondary = hit_rate
+        elif objective == "sharpe":
+            score, count = simulated_sharpe(y_true, y_prob, float(threshold), win_pct, loss_pct)
+            secondary = hit_rate
+        else:
+            score = hit_rate
+            secondary = hit_rate
+        if score is None or count < min_signals:
             continue
-        if hit_rate > best_hit_rate:
-            best_hit_rate = hit_rate
+        if score > best_score:
+            best_score = score
             best_threshold = float(threshold)
             best_signal_count = count
+            best_secondary = secondary
 
     if best_signal_count >= min_signals:
-        return best_threshold, best_hit_rate, best_signal_count, best_hit_rate
+        return best_threshold, best_secondary, best_signal_count, best_score
 
     for threshold in np.arange(0.15, 0.91, 0.01):
         count, hit_rate = signal_hit_rate(y_true, y_prob, float(threshold))
         if count < 3 or hit_rate is None:
             continue
-        if hit_rate > best_hit_rate:
-            best_hit_rate = hit_rate
+        if hit_rate > best_score:
+            best_score = hit_rate
             best_threshold = float(threshold)
             best_signal_count = count
+            best_secondary = hit_rate
 
     if best_signal_count > 0:
-        return best_threshold, best_hit_rate, best_signal_count, best_hit_rate
+        return best_threshold, best_secondary, best_signal_count, best_score
 
     percentile_threshold = float(np.percentile(y_prob, 80))
     count, hit_rate = signal_hit_rate(y_true, y_prob, percentile_threshold)

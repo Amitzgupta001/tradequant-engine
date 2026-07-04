@@ -17,8 +17,22 @@ class BacktestReportStore:
     def __init__(self, base_path: Path) -> None:
         self._base_path = base_path
 
-    def report_dir(self, instrument: Instrument, timeframe: Timeframe) -> Path:
+    def report_dir(
+        self,
+        instrument: Instrument,
+        timeframe: Timeframe,
+        strategy_id: str | None = None,
+    ) -> Path:
         """Directory for backtest artifacts."""
+        if strategy_id:
+            return (
+                self._base_path
+                / "strategies"
+                / strategy_id
+                / instrument.exchange_segment.value
+                / instrument.security_id
+                / timeframe.value.lower()
+            )
         return (
             self._base_path
             / instrument.exchange_segment.value
@@ -26,9 +40,15 @@ class BacktestReportStore:
             / timeframe.value.lower()
         )
 
-    def save(self, instrument: Instrument, timeframe: Timeframe, result: BacktestResult) -> tuple[Path, Path]:
+    def save(
+        self,
+        instrument: Instrument,
+        timeframe: Timeframe,
+        result: BacktestResult,
+        strategy_id: str | None = None,
+    ) -> tuple[Path, Path]:
         """Persist JSON summary and equity curve CSV."""
-        directory = self.report_dir(instrument, timeframe)
+        directory = self.report_dir(instrument, timeframe, strategy_id=strategy_id)
         directory.mkdir(parents=True, exist_ok=True)
 
         summary_path = directory / "summary.json"

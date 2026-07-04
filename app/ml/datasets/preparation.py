@@ -39,11 +39,13 @@ FORWARD_RETURN_COLUMNS = {
     20: "forward_return_20b",
 }
 
+from app.strategy.presets import REWARD_PCT_5M, RISK_PCT_5M
+
 INTRADAY_DEFAULTS_BY_TIMEFRAME: dict[Timeframe, dict[str, float | int]] = {
-    Timeframe.MIN_5: {"forward_horizon_bars": 20, "move_threshold": 0.003},
-    Timeframe.MIN_15: {"forward_horizon_bars": 20, "move_threshold": 0.004},
+    Timeframe.MIN_5: {"forward_horizon_bars": 20, "move_threshold": REWARD_PCT_5M},
+    Timeframe.MIN_15: {"forward_horizon_bars": 20, "move_threshold": RISK_PCT_5M * 4},
 }
-DEFAULT_INTRADAY = {"forward_horizon_bars": 20, "move_threshold": 0.004}
+DEFAULT_INTRADAY = {"forward_horizon_bars": 20, "move_threshold": REWARD_PCT_5M}
 
 
 def training_config_for_timeframe(timeframe: Timeframe, base: TrainingConfig | None = None) -> TrainingConfig:

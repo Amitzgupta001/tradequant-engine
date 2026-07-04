@@ -1,0 +1,1 @@
+"""Momentum strategy extension point."""

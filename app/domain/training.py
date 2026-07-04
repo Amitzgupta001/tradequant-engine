@@ -13,6 +13,14 @@ class TrainingTask(str, Enum):
     REGRESSION = "regression"
 
 
+class ThresholdTuningObjective(str, Enum):
+    """Objective used when tuning the classification threshold."""
+
+    HIT_RATE = "hit_rate"
+    PROFIT_FACTOR = "profit_factor"
+    SHARPE = "sharpe"
+
+
 class SetupType(str, Enum):
     """Technical setup filter for swing signal training."""
 
@@ -49,6 +57,9 @@ class TrainingConfig(BaseModel):
     early_stopping_rounds: int = Field(default=50, ge=5)
     label_threshold: float = Field(default=0.0, ge=0.0)
     tune_threshold: bool = True
+    threshold_objective: ThresholdTuningObjective = ThresholdTuningObjective.PROFIT_FACTOR
+    assumed_win_pct: float = Field(default=0.003, ge=0.0)
+    assumed_loss_pct: float = Field(default=0.007, ge=0.0)
     random_state: int = 42
     min_train_rows: int = Field(default=50, ge=20)
 

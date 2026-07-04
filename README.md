@@ -8,6 +8,7 @@ Production-quality AI quantitative trading platform for Indian markets using [Dh
 |---|---|
 | [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, **sequence diagrams**, storage layout |
 | [CLI Reference](docs/CLI.md) | All commands and options |
+| [Strategy Selector](docs/STRATEGY_SELECTOR.md) | Phase 3 multi-strategy ML, selector, auto-backtest |
 | [ML Training](docs/ML_TRAINING.md) | Presets, setup filters, panel training |
 | [Stock Universes](docs/UNIVERSES.md) | Nifty 50 / Nifty 500 batch download |
 
@@ -27,16 +28,17 @@ tradequant-engine/
 │   │   └── universe/    # Nifty 50 / Nifty 500 symbol lists
 │   ├── domain/          # Candle, Instrument, Order, Trade
 │   ├── indicators/      # EMA, RSI, MACD, ATR, VWAP, Bollinger
-│   ├── ml/              # Features, LightGBM trainer, model registry
-│   ├── risk/            # Position sizing, stops, exposure
-│   ├── services/        # Orchestration (batch download, training)
-│   ├── strategy/        # Presets (best 5-min validated config)
+│   ├── ml/              # Features, LightGBM trainer, strategy selector
+│   ├── strategies/      # Phase 3 rule-based strategies (12 registered)
+│   ├── services/        # Orchestration (batch, training, selector)
+│   ├── strategy/        # ML swing strategy, presets, model bridge
 │   └── utils/
 ├── storage/
 │   ├── raw/             # OHLCV CSV from Dhan
 │   ├── processed/       # Indicator snapshots
 │   ├── features/        # ML feature CSVs
-│   ├── models/          # Per-stock and panel models
+│   ├── models/          # Per-stock, panel, per-strategy, selector models
+│   ├── datasets/        # Strategy + selector benchmark datasets
 │   └── backtests/       # Backtest reports
 ├── tests/
 └── docs/
@@ -115,9 +117,13 @@ See [docs/UNIVERSES.md](docs/UNIVERSES.md) and [docs/ML_TRAINING.md](docs/ML_TRA
 | `features` | Build ML feature vectors |
 | `batch-download` | Download + features for Nifty 50/500 |
 | `train` | Train LightGBM (single stock or panel) |
-| `backtest` | Run ML strategy backtest |
+| `backtest` | Run ML swing strategy backtest |
+| `backtest-strategy` | Backtest one Phase 3 strategy model |
+| `train-strategy-selector` | Train strategy meta-model (single or universe) |
+| `recommend-strategy` | Recommend best strategy for current market |
+| `backtest-auto` | Rolling backtest with strategy selector |
 
-Full reference: [docs/CLI.md](docs/CLI.md)
+Full reference: [docs/CLI.md](docs/CLI.md) · Strategy selector: [docs/STRATEGY_SELECTOR.md](docs/STRATEGY_SELECTOR.md)
 
 ## Best preset (`--preset best`)
 
@@ -128,8 +134,10 @@ Validated 5-minute intraday swing setup strategy:
 | Timeframe | 5-min, 365 days lookback |
 | Setup | Long (RSI/BB oversold) |
 | Forward horizon | 20 bars |
-| Move threshold | 0.3% |
-| Stop / trailing | 1% stop, 0.6% trail after +0.8% |
+| Move threshold | 1.5% (1:3 R:R with 0.5% stop) |
+| Partial exits | T1 +0.5%, T2 +1.0%, T3 +1.5% |
+| Stop / trailing | 0.5% stop, scaled targets enabled |
+| Max hold | 20 bars |
 
 ## Run API
 
@@ -147,6 +155,8 @@ Health: `GET /health`
 | Features | `storage/features/NSE_EQ/{security_id}/{timeframe}_features.csv` |
 | Single-stock model | `storage/models/NSE_EQ/{security_id}/min_5/` |
 | Panel model | `storage/models/panels/{universe}/min_5/` |
+| Strategy model | `storage/models/{strategy_id}/v{N}/` |
+| Selector model | `storage/models/strategy_selector/...` |
 | Backtest | `storage/backtests/NSE_EQ/{security_id}/{timeframe}/` |
 
 ## Tests
@@ -166,6 +176,7 @@ PYTHONPATH=. python3 -m pytest
 | 4 | LightGBM training + registry | Done |
 | 5 | Backtesting engine | Done |
 | 5b | Multi-stock universes + panel training | Done |
+| 3b | Multi-strategy framework + selector meta-model | Done |
 | 6 | Paper trading | Planned |
 | 7 | Live trading | Planned |
 | 8 | LLM trade analysis | Planned |

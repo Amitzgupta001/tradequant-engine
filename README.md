@@ -6,7 +6,7 @@ Production-quality AI quantitative trading platform for Indian markets using [Dh
 
 | Doc | Description |
 |---|---|
-| [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, storage layout |
+| [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, **sequence diagrams**, storage layout |
 | [CLI Reference](docs/CLI.md) | All commands and options |
 | [ML Training](docs/ML_TRAINING.md) | Presets, setup filters, panel training |
 | [Stock Universes](docs/UNIVERSES.md) | Nifty 50 / Nifty 500 batch download |

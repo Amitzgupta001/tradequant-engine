@@ -17,6 +17,8 @@ from app.services.backtest_service import BacktestService
 from app.services.feature_service import FeatureService
 from app.services.historical_data_service import HistoricalDataService
 from app.services.indicator_service import IndicatorService
+from app.services.paper_trading_service import PaperTradingService
+from app.services.strategy_selector_service import StrategySelectorService
 from app.services.training_service import TrainingService
 from app.ml.datasets.builder import FeatureDatasetBuilder
 
@@ -119,6 +121,22 @@ def get_backtest_service() -> BacktestService:
         model_registry=get_model_registry(),
         report_store=get_backtest_report_store(),
         engine=BacktestEngine(),
+    )
+
+
+@lru_cache
+def get_strategy_selector_service() -> StrategySelectorService:
+    """Return a cached strategy selector service instance."""
+    return StrategySelectorService(get_historical_repository())
+
+
+@lru_cache
+def get_paper_trading_service() -> PaperTradingService:
+    """Return a cached paper trading service instance."""
+    return PaperTradingService(
+        repository=get_historical_repository(),
+        training_service=get_training_service(),
+        selector_service=get_strategy_selector_service(),
     )
 
 

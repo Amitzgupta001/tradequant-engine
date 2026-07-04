@@ -23,6 +23,7 @@ PYTHONPATH=. python3 -m app.cli <command> [options]
 | `backtest-auto` | Rolling backtest with strategy selector (default) |
 | `train-strategy-selector` | Train meta-model on walk-forward strategy benchmarks |
 | `recommend-strategy` | Recommend best strategy for current conditions |
+| `paper-trade` | Live paper trading (WebSocket + 5m bar close, no broker orders) |
 
 ---
 
@@ -365,6 +366,57 @@ PYTHONPATH=. python3 -m app.cli recommend-strategy \
 ```
 
 See [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md) for architecture and pooled universe training.
+
+---
+
+## paper-trade
+
+Live forward testing with **simulated** fills. Dhan is used for **market data only** — `place_order` is blocked.
+
+Full guide with sequence diagrams: [PAPER_TRADING.md](PAPER_TRADING.md)
+
+```bash
+# Script wrapper (recommended)
+./scripts/run_paper_nifty50.sh serve   # dashboard :4000
+./scripts/run_paper_nifty50.sh start
+./scripts/run_paper_nifty50.sh run    # --mode live (WebSocket + 5m bar close)
+
+# CLI
+PYTHONPATH=. python3 -m app.cli paper-trade \
+  --universe nifty50 \
+  --selector-universe nifty50 \
+  --capital 1000000 \
+  --start
+
+PYTHONPATH=. python3 -m app.cli paper-trade \
+  --universe nifty50 \
+  --run \
+  --mode live
+
+# Poll fallback
+PYTHONPATH=. python3 -m app.cli paper-trade --run --mode poll --poll-seconds 60
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--universe` | `nifty50` | Watchlist |
+| `--selector-universe` | same | Pooled selector model |
+| `--timeframe` | `MIN_5` | Bar interval |
+| `--capital` | `1000000` | Virtual capital (split per symbol) |
+| `--mode` | `live` | `live` = WebSocket LTP + REST on bar close; `poll` = REST loop |
+| `--poll-seconds` | `60` | Bar-clock check (live) or REST interval (poll) |
+| `--security-ids` | all | Comma-separated subset |
+| `--start` | — | Create session |
+| `--run` | — | Continuous loop |
+| `--tick` | — | Single cycle |
+| `--stop` | — | Stop session |
+| `--force` | off | Run when market closed (testing) |
+
+**Output:** `storage/paper/sessions/{session_id}/` · Dashboard: `GET /dashboard`
+
+---
+
+## Example workflows
 
 ### Quick single-stock experiment (HDFC Bank)
 

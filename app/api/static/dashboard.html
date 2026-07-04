@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradeQuant Paper Trading</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: #141b2d;
+      --border: #243049;
+      --text: #e8eefc;
+      --muted: #93a4c3;
+      --green: #3dd68c;
+      --red: #ff6b6b;
+      --blue: #5b8cff;
+      --amber: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: linear-gradient(180deg, #0b1020 0%, #10182b 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    button {
+      background: var(--blue);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.secondary { background: #243049; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .label { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .value { font-size: 24px; font-weight: 700; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .badge.open { background: rgba(61, 214, 140, 0.15); color: var(--green); }
+    .badge.closed { background: rgba(255, 107, 107, 0.15); color: var(--red); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    h2 { margin: 0 0 12px; font-size: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    .pos { color: var(--green); }
+    .neg { color: var(--red); }
+    .empty { color: var(--muted); padding: 12px 0; }
+    .status-line { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    .error { color: var(--red); margin-top: 12px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Paper Trading Dashboard</h1>
+    <div class="sub">Live forward testing with strategy selector — refreshes every 10 seconds</div>
+
+    <div class="toolbar">
+      <button id="refreshBtn">Refresh</button>
+      <button id="tickBtn" class="secondary">Run Tick</button>
+      <button id="startBtn" class="secondary">Start Nifty 50 Session</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Market</div>
+        <div id="marketBadge" class="badge closed">CLOSED</div>
+      </div>
+      <div class="card">
+        <div class="label">Session</div>
+        <div id="sessionId" class="value" style="font-size:16px">—</div>
+      </div>
+      <div class="card">
+        <div class="label">Realized PnL</div>
+        <div id="realizedPnl" class="value">—</div>
+      </div>
+      <div class="card">
+        <div class="label">Closed Trades</div>
+        <div id="tradeCount" class="value">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Open Positions</div>
+        <div id="openCount" class="value">0</div>
+      </div>
+    </div>
+
+    <div id="errorBox" class="error"></div>
+    <div id="statusLine" class="status-line"></div>
+
+    <div class="panel">
+      <h2>Open Positions</h2>
+      <div id="positionsEmpty" class="empty">No open positions</div>
+      <table id="positionsTable" hidden>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Strategy</th>
+            <th>Entry</th>
+            <th>Qty</th>
+            <th>Mark</th>
+            <th>Unrealized PnL</th>
+          </tr>
+        </thead>
+        <tbody id="positionsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h2>Recent Trades</h2>
+      <div id="tradesEmpty" class="empty">No trades yet</div>
+      <table id="tradesTable" hidden>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Symbol</th>
+            <th>Strategy</th>
+            <th>Side</th>
+            <th>Qty</th>
+            <th>Entry</th>
+            <th>Exit</th>
+            <th>PnL</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody id="tradesBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const fmtMoney = (value) => {
+      if (value == null || Number.isNaN(value)) return "—";
+      const sign = value >= 0 ? "+" : "";
+      return sign + value.toFixed(2);
+    };
+    const fmtPct = (value) => (value == null ? "—" : (value * 100).toFixed(2) + "%");
+    const fmtTime = (value) => value ? new Date(value).toLocaleString("en-IN") : "—";
+    const pnlClass = (value) => value >= 0 ? "pos" : "neg";
+
+    async function fetchDashboard() {
+      const response = await fetch("/api/v1/paper/dashboard");
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.detail || "No active paper session");
+      }
+      return response.json();
+    }
+
+    async function runTick(force = false) {
+      const response = await fetch("/api/v1/paper/tick", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ force }),
+      });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.detail || "Tick failed");
+      }
+      return response.json();
+    }
+
+    async function startSession() {
+      const response = await fetch("/api/v1/paper/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          universe_id: "nifty50",
+          selector_universe_id: "nifty50",
+          initial_capital: 1000000,
+        }),
+      });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.detail || "Start failed");
+      }
+      return response.json();
+    }
+
+    function render(data) {
+      document.getElementById("errorBox").textContent = data.session.last_error || "";
+      document.getElementById("sessionId").textContent = data.session.session_id;
+      document.getElementById("realizedPnl").textContent = fmtMoney(data.total_realized_pnl);
+      document.getElementById("realizedPnl").className = "value " + pnlClass(data.total_realized_pnl);
+      document.getElementById("tradeCount").textContent = data.total_trades;
+      document.getElementById("openCount").textContent = data.open_positions.length;
+
+      const marketBadge = document.getElementById("marketBadge");
+      marketBadge.textContent = data.market_open ? "OPEN" : "CLOSED";
+      marketBadge.className = "badge " + (data.market_open ? "open" : "closed");
+
+      document.getElementById("statusLine").textContent =
+        `Universe: ${data.session.universe_id} | Status: ${data.session.status} | Last tick: ${fmtTime(data.last_tick_at)} | Processed: ${data.symbols_processed}`;
+
+      const positionsBody = document.getElementById("positionsBody");
+      positionsBody.innerHTML = "";
+      const positionsTable = document.getElementById("positionsTable");
+      const positionsEmpty = document.getElementById("positionsEmpty");
+      if (!data.open_positions.length) {
+        positionsTable.hidden = true;
+        positionsEmpty.hidden = false;
+      } else {
+        positionsEmpty.hidden = true;
+        positionsTable.hidden = false;
+        for (const row of data.open_positions) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.symbol}</td>
+            <td>${row.strategy_id}</td>
+            <td>${fmtTime(row.entry_time)} @ ${row.entry_price.toFixed(2)}</td>
+            <td>${row.quantity}</td>
+            <td>${row.mark_price?.toFixed(2) ?? "—"}</td>
+            <td class="${pnlClass(row.unrealized_pnl ?? 0)}">${fmtMoney(row.unrealized_pnl)}</td>
+          `;
+          positionsBody.appendChild(tr);
+        }
+      }
+
+      const tradesBody = document.getElementById("tradesBody");
+      tradesBody.innerHTML = "";
+      const tradesTable = document.getElementById("tradesTable");
+      const tradesEmpty = document.getElementById("tradesEmpty");
+      const trades = [...data.recent_trades].reverse();
+      if (!trades.length) {
+        tradesTable.hidden = true;
+        tradesEmpty.hidden = false;
+      } else {
+        tradesEmpty.hidden = true;
+        tradesTable.hidden = false;
+        for (const row of trades) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${fmtTime(row.exit_time)}</td>
+            <td>${row.symbol}</td>
+            <td>${row.strategy_id}</td>
+            <td>LONG</td>
+            <td>${row.quantity}</td>
+            <td>${row.entry_price.toFixed(2)}</td>
+            <td>${row.exit_price.toFixed(2)}</td>
+            <td class="${pnlClass(row.pnl)}">${fmtMoney(row.pnl)} (${fmtPct(row.return_pct)})</td>
+            <td>${row.exit_reason ?? "—"}</td>
+          `;
+          tradesBody.appendChild(tr);
+        }
+      }
+    }
+
+    async function refresh() {
+      try {
+        const data = await fetchDashboard();
+        render(data);
+        document.getElementById("errorBox").textContent = "";
+      } catch (error) {
+        document.getElementById("errorBox").textContent = error.message;
+      }
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", refresh);
+    document.getElementById("tickBtn").addEventListener("click", async () => {
+      try {
+        const data = await runTick(false);
+        render(data);
+        document.getElementById("errorBox").textContent = "";
+      } catch (error) {
+        document.getElementById("errorBox").textContent = error.message;
+      }
+    });
+    document.getElementById("startBtn").addEventListener("click", async () => {
+      try {
+        await startSession();
+        await refresh();
+      } catch (error) {
+        document.getElementById("errorBox").textContent = error.message;
+      }
+    });
+
+    refresh();
+    setInterval(refresh, 10000);
+  </script>
+</body>
+</html>

@@ -9,6 +9,7 @@ Production-quality AI quantitative trading platform for Indian markets using [Dh
 | [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, **sequence diagrams**, storage layout |
 | [CLI Reference](docs/CLI.md) | All commands and options |
 | [Strategy Selector](docs/STRATEGY_SELECTOR.md) | Phase 3 multi-strategy ML, selector, auto-backtest |
+| [Paper Trading](docs/PAPER_TRADING.md) | Live forward testing, WebSocket + dashboard, no broker orders |
 | [ML Training](docs/ML_TRAINING.md) | Presets, setup filters, panel training |
 | [Stock Universes](docs/UNIVERSES.md) | Nifty 50 / Nifty 500 batch download |
 
@@ -122,8 +123,21 @@ See [docs/UNIVERSES.md](docs/UNIVERSES.md) and [docs/ML_TRAINING.md](docs/ML_TRA
 | `train-strategy-selector` | Train strategy meta-model (single or universe) |
 | `recommend-strategy` | Recommend best strategy for current market |
 | `backtest-auto` | Rolling backtest with strategy selector |
+| `paper-trade` | Live paper trading (WebSocket + 5m bar close) |
 
-Full reference: [docs/CLI.md](docs/CLI.md) · Strategy selector: [docs/STRATEGY_SELECTOR.md](docs/STRATEGY_SELECTOR.md)
+Full reference: [docs/CLI.md](docs/CLI.md) · Strategy selector: [docs/STRATEGY_SELECTOR.md](docs/STRATEGY_SELECTOR.md) · Paper trading: [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md)
+
+## Paper trading (Monday forward test)
+
+```bash
+# Terminal 1 — dashboard at http://127.0.0.1:4000/dashboard
+./scripts/run_paper_nifty50.sh serve
+
+# Terminal 2 — live WebSocket + 5m bar processing (no real Dhan orders)
+./scripts/run_paper_nifty50.sh run
+```
+
+See [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md) for sequence diagrams, API, and safety guarantees.
 
 ## Best preset (`--preset best`)
 

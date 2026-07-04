@@ -3,6 +3,7 @@
 import argparse
 import json
 import sys
+import time
 from datetime import date
 
 from loguru import logger
@@ -33,6 +34,8 @@ from app.services.batch_data_service import BatchDataService
 from app.backtest.sweep import BacktestSweep
 from app.services.strategy_backtest_service import StrategyBacktestService
 from app.services.strategy_selector_service import StrategySelectorService
+from app.services.paper_trading_service import PaperTradingService
+from app.paper.live_runner import PaperLiveRunner
 from app.ml.datasets.strategy_selector_builder import (
     SelectionObjective,
     StrategySelectorBuilderConfig,
@@ -102,6 +105,15 @@ def _build_backtest_service() -> BacktestService:
         model_registry=ModelRegistry(base_path=settings.storage_path / "models"),
         report_store=BacktestReportStore(base_path=settings.storage_path / "backtests"),
         engine=BacktestEngine(),
+    )
+
+
+def _build_paper_trading_service() -> PaperTradingService:
+    repository = _build_repository()
+    return PaperTradingService(
+        repository=repository,
+        training_service=_build_training_service(),
+        selector_service=StrategySelectorService(repository),
     )
 
 
@@ -652,6 +664,79 @@ def cmd_backtest_auto(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_paper_trade(args: argparse.Namespace) -> int:
+    """Run paper trading session for live forward testing."""
+    service = _build_paper_trading_service()
+    timeframe = Timeframe(args.timeframe)
+    security_ids = None
+    if args.security_ids:
+        security_ids = [item.strip() for item in args.security_ids.split(",") if item.strip()]
+
+    if args.start:
+        session = service.start_session(
+            universe_id=args.universe,
+            timeframe=timeframe,
+            initial_capital=args.capital,
+            selector_universe_id=args.selector_universe or args.universe,
+            security_ids=security_ids,
+            session_id=args.session_id,
+        )
+        print(json.dumps(session.model_dump(mode="json"), indent=2))
+        return 0
+
+    if args.stop:
+        session = service.stop_session(args.session_id)
+        print(json.dumps(session.model_dump(mode="json"), indent=2))
+        return 0
+
+    if args.tick or args.run:
+        if args.run and service.get_active_session() is None:
+            session = service.start_session(
+                universe_id=args.universe,
+                timeframe=timeframe,
+                initial_capital=args.capital,
+                selector_universe_id=args.selector_universe or args.universe,
+                security_ids=security_ids,
+                session_id=args.session_id,
+            )
+            logger.info("Started paper session {}", session.session_id)
+
+        if args.run and args.mode == "live":
+            runner = PaperLiveRunner(service)
+            runner.run(
+                session_id=args.session_id,
+                poll_seconds=min(args.poll_seconds, 5.0),
+                force=args.force,
+            )
+            return 0
+
+        while True:
+            snapshot = service.tick(session_id=args.session_id, force=args.force)
+            print(
+                json.dumps(
+                    {
+                        "market_open": snapshot.market_open,
+                        "session_id": snapshot.session.session_id,
+                        "total_realized_pnl": snapshot.total_realized_pnl,
+                        "total_trades": snapshot.total_trades,
+                        "open_positions": len(snapshot.open_positions),
+                        "symbols_processed": snapshot.symbols_processed,
+                        "last_error": snapshot.session.last_error,
+                    },
+                    indent=2,
+                )
+            )
+            if not args.run:
+                break
+            time.sleep(args.poll_seconds)
+
+        return 0
+
+    snapshot = service.dashboard(session_id=args.session_id)
+    print(json.dumps(snapshot.model_dump(mode="json"), indent=2))
+    return 0
+
+
 def cmd_batch_download(args: argparse.Namespace) -> int:
     """Download OHLCV and build features for all symbols in a universe."""
     _apply_train_preset(args)
@@ -861,6 +946,47 @@ def build_parser() -> argparse.ArgumentParser:
     )
     auto_bt.add_argument("--retrain", action="store_true")
     auto_bt.set_defaults(func=cmd_backtest_auto)
+
+    paper = subparsers.add_parser(
+        "paper-trade",
+        help="Paper trade live market with strategy selector (forward testing)",
+    )
+    paper.add_argument("--universe", choices=list_universes(), default="nifty50")
+    paper.add_argument(
+        "--selector-universe",
+        choices=list_universes(),
+        default=None,
+        help="Pooled selector universe (defaults to --universe)",
+    )
+    paper.add_argument("--timeframe", default="MIN_5")
+    paper.add_argument("--capital", type=float, default=1_000_000.0)
+    paper.add_argument(
+        "--security-ids",
+        default=None,
+        help="Comma-separated security ids (default: full universe)",
+    )
+    paper.add_argument("--session-id", default=None)
+    paper.add_argument("--start", action="store_true", help="Create a new paper session")
+    paper.add_argument("--stop", action="store_true", help="Stop the active paper session")
+    paper.add_argument("--tick", action="store_true", help="Run one paper trading tick")
+    paper.add_argument(
+        "--run",
+        action="store_true",
+        help="Poll market data and process paper trades during market hours",
+    )
+    paper.add_argument(
+        "--mode",
+        choices=["live", "poll"],
+        default="live",
+        help="live=WebSocket LTP + REST on 5m bar close (default); poll=REST only loop",
+    )
+    paper.add_argument("--poll-seconds", type=int, default=60)
+    paper.add_argument(
+        "--force",
+        action="store_true",
+        help="Run ticks even when market is closed",
+    )
+    paper.set_defaults(func=cmd_paper_trade)
 
     batch_dl = subparsers.add_parser(
         "batch-download",

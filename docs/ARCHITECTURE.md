@@ -217,6 +217,9 @@ storage/models/panels/{universe_id}/{timeframe}/
 | Strategy ML | `app/ml/trainer/strategy_trainer.py` | Per-strategy LightGBM |
 | Selector | `app/ml/trainer/strategy_selector_trainer.py` | Multiclass meta-model |
 | Hybrid picker | `app/ml/selector/picker.py` | Model shortlist + backtest score |
+| Paper trading | `app/services/paper_trading_service.py` | Live forward test orchestration |
+| Live feed | `app/brokers/dhan/live_feed.py` | Dhan WebSocket ticker (read-only) |
+| Paper safety | `app/paper/safety.py` | Blocks broker orders in paper mode |
 | Best preset | `app/strategy/presets.py` | 1:3 R:R, T1/T2/T3 backtest config |
 | Model registry | `app/ml/registry/model_registry.py` | Per-stock and panel model paths |
 
@@ -244,6 +247,7 @@ storage/
     {strategy_id}/...                   # strategy ML datasets
     strategy_selector/...               # walk-forward benchmark datasets
   backtests/   Backtest results (+ strategies/ subdir)
+  paper/       Paper trading sessions, trades, state
   logs/        Long-running job logs (optional)
 ```
 
@@ -267,9 +271,37 @@ Environment variables (see `.env.example`):
 | `BATCH_SLEEP_SECONDS` | `3` | Pause between symbols in batch runs |
 | `CACHE_TTL_SECONDS` | `300` | In-memory cache TTL |
 
+## Paper trading (live forward test)
+
+See [PAPER_TRADING.md](PAPER_TRADING.md) for the full guide. Summary:
+
+```mermaid
+sequenceDiagram
+    participant Runner as PaperLiveRunner
+    participant WS as Dhan WebSocket
+    participant PTS as PaperTradingService
+    participant Dhan as Dhan REST
+    participant Engine as PaperInstrumentEngine
+    participant Store as storage/paper/
+
+    Runner->>WS: subscribe tickers (LTP only)
+    loop each tick
+        WS-->>Runner: LTP
+        Runner->>PTS: update_live_price (dashboard mark)
+    end
+    loop each 5m bar close (IST)
+        Runner->>PTS: tick()
+        PTS->>Dhan: intraday_minute_data (read only)
+        PTS->>Engine: new bars → simulated buy/sell
+        Engine->>Store: trades.jsonl
+    end
+    Note over Engine,Dhan: place_order never called
+```
+
 ## Documentation
 
 - [CLI Reference](CLI.md)
+- [Paper Trading](PAPER_TRADING.md)
 - [Strategy Selector](STRATEGY_SELECTOR.md)
 - [ML Training](ML_TRAINING.md)
 - [Stock Universes](UNIVERSES.md)

@@ -202,6 +202,7 @@ PYTHONPATH=. python3 -m app.cli recommend-strategy \
 
 ## Related docs
 
+- [Paper Trading](PAPER_TRADING.md) — live forward testing with selector + dashboard
 - [CLI Reference](CLI.md) — all command flags
 - [Architecture](ARCHITECTURE.md) — layers and storage
 - [ML Training](ML_TRAINING.md) — swing ML path (`train` / `backtest`)

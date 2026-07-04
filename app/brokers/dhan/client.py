@@ -78,8 +78,10 @@ class DhanClient:
         raise NotImplementedError("Live market feed is available in Phase 7.")
 
     def place_order(self, order: Any) -> Any:
-        """Place a trade order. Available in Phase 7."""
-        raise NotImplementedError("Order placement is available in Phase 7.")
+        """Place a trade order. Disabled — paper trading uses simulated fills only."""
+        from app.paper.safety import block_broker_order
+
+        block_broker_order("place_order")
 
     def get_positions(self) -> Any:
         """Retrieve open positions. Available in Phase 7."""

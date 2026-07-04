@@ -3,8 +3,10 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+from pathlib import Path
+
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from loguru import logger
 
 from app.api.v1.router import v1_router
@@ -35,6 +37,12 @@ def create_app() -> FastAPI:
     @app.get("/health")
     def root_health() -> dict[str, str]:
         return {"status": "ok", "app": settings.app_name}
+
+    @app.get("/dashboard")
+    def dashboard() -> FileResponse:
+        """Serve the paper trading dashboard."""
+        path = Path(__file__).parent / "static" / "dashboard.html"
+        return FileResponse(path)
 
     app.include_router(v1_router)
 

@@ -20,6 +20,7 @@ storage/processed/
 storage/features/
 storage/models/
 storage/backtests/
+storage/datasets/
 storage/logs/
 *.csv
 !storage/**/.gitkeep

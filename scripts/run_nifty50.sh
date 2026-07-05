@@ -139,8 +139,8 @@ for item in instruments:
         text=True,
     )
 
-    payload = result.stdout if result.returncode == 0 else result.stderr
-    out.write_text(payload)
+    payload = result.stdout if result.returncode == 0 else (result.stderr or result.stdout)
+    out.write_text(payload or "unknown error")
 
     row = {
         "security_id": sid,

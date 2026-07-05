@@ -9,7 +9,9 @@ Production-quality AI quantitative trading platform for Indian markets using [Dh
 | [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, **sequence diagrams**, storage layout |
 | [CLI Reference](docs/CLI.md) | All commands and options |
 | [Strategy Selector](docs/STRATEGY_SELECTOR.md) | Phase 3 multi-strategy ML, selector, auto-backtest |
-| [Paper Trading](docs/PAPER_TRADING.md) | Live forward testing, WebSocket + dashboard, no broker orders |
+| [Backtesting](docs/BACKTESTING.md) | Bar-by-bar simulation, walk-forward, rolling auto-backtest |
+| [Live Trading](docs/LIVE_TRADING.md) | Paper forward test logic, WebSocket + bar close, dashboard |
+| [Paper Trading](docs/PAPER_TRADING.md) | Quick start commands and API reference |
 | [ML Training](docs/ML_TRAINING.md) | Presets, setup filters, panel training |
 | [Stock Universes](docs/UNIVERSES.md) | Nifty 50 / Nifty 500 batch download |
 
@@ -125,7 +127,7 @@ See [docs/UNIVERSES.md](docs/UNIVERSES.md) and [docs/ML_TRAINING.md](docs/ML_TRA
 | `backtest-auto` | Rolling backtest with strategy selector |
 | `paper-trade` | Live paper trading (WebSocket + 5m bar close) |
 
-Full reference: [docs/CLI.md](docs/CLI.md) · Strategy selector: [docs/STRATEGY_SELECTOR.md](docs/STRATEGY_SELECTOR.md) · Paper trading: [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md)
+Full reference: [docs/CLI.md](docs/CLI.md) · Backtesting: [docs/BACKTESTING.md](docs/BACKTESTING.md) · Strategy selector: [docs/STRATEGY_SELECTOR.md](docs/STRATEGY_SELECTOR.md) · Paper trading: [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md)
 
 ## Paper trading (Monday forward test)
 
@@ -137,7 +139,7 @@ Full reference: [docs/CLI.md](docs/CLI.md) · Strategy selector: [docs/STRATEGY_
 ./scripts/run_paper_nifty50.sh run
 ```
 
-See [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md) for sequence diagrams, API, and safety guarantees.
+See [docs/PAPER_TRADING.md](docs/PAPER_TRADING.md) for quick start. Full logic: [docs/LIVE_TRADING.md](docs/LIVE_TRADING.md).
 
 ## Best preset (`--preset best`)
 

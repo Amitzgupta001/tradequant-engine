@@ -273,7 +273,7 @@ Environment variables (see `.env.example`):
 
 ## Paper trading (live forward test)
 
-See [PAPER_TRADING.md](PAPER_TRADING.md) for the full guide. Summary:
+See [LIVE_TRADING.md](LIVE_TRADING.md) for full logic and flow. Summary in [PAPER_TRADING.md](PAPER_TRADING.md).
 
 ```mermaid
 sequenceDiagram
@@ -301,6 +301,8 @@ sequenceDiagram
 ## Documentation
 
 - [CLI Reference](CLI.md)
+- [Backtesting](BACKTESTING.md)
+- [Live Trading](LIVE_TRADING.md)
 - [Paper Trading](PAPER_TRADING.md)
 - [Strategy Selector](STRATEGY_SELECTOR.md)
 - [ML Training](ML_TRAINING.md)

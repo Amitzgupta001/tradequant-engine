@@ -220,9 +220,7 @@ class StrategySelectorService:
                     universe_id=scope["universe_id"],
                 )
                 if scope["universe_id"] and "source_security_id" in benchmark_frame.columns:
-                    benchmark_frame = benchmark_frame.loc[
-                        benchmark_frame["source_security_id"] == instrument.security_id
-                    ]
+                    benchmark_frame = self._filter_panel_rows(benchmark_frame, instrument.security_id)
                 strategy_priors = compute_strategy_priors(benchmark_frame)
             except FileNotFoundError:
                 strategy_priors = None
@@ -295,7 +293,7 @@ class StrategySelectorService:
             universe_id=scope["universe_id"],
         )
         if scope["universe_id"] and "source_security_id" in frame.columns:
-            frame = frame.loc[frame["source_security_id"] == instrument.security_id].copy()
+            frame = self._filter_panel_rows(frame, instrument.security_id)
 
         return self._simulate_on_frame(frame, metadata, model, encoder)
 
@@ -436,7 +434,7 @@ class StrategySelectorService:
             universe_id=scope["universe_id"],
         )
         if scope["universe_id"] and "source_security_id" in frame.columns:
-            frame = frame.loc[frame["source_security_id"] == instrument.security_id].copy()
+            frame = self._filter_panel_rows(frame, instrument.security_id)
 
         working = frame.dropna(subset=metadata.feature_columns).copy()
         if working.empty:
@@ -550,6 +548,14 @@ class StrategySelectorService:
                 how="left",
             )
         return merged.sort_values("timestamp")
+
+    @staticmethod
+    def _filter_panel_rows(frame: pd.DataFrame, security_id: str) -> pd.DataFrame:
+        """Filter pooled benchmark rows for one symbol (handles int/str ids)."""
+        if "source_security_id" not in frame.columns:
+            return frame
+        mask = frame["source_security_id"].astype(str) == str(security_id)
+        return frame.loc[mask].copy()
 
     def _resolve_selector_scope(
         self,

@@ -2,6 +2,8 @@
 
 Simulated live trading using the **strategy selector** and **best 5m preset**. Dhan is used for **market data only** — no real orders are placed.
 
+> **Full logic and flow:** [LIVE_TRADING.md](LIVE_TRADING.md) — trading day timeline, bar-close tick, WebSocket loop, state machine, live vs backtest comparison.
+
 ## Overview
 
 ```text
@@ -394,6 +396,7 @@ Strategy is selected **once per symbol per trading day** via the hybrid selector
 
 ## Related docs
 
+- [Live Trading — logic and flow](LIVE_TRADING.md) — comprehensive guide
 - [Strategy Selector](STRATEGY_SELECTOR.md) — how strategies are picked
 - [CLI Reference](CLI.md) — all commands
 - [Architecture](ARCHITECTURE.md) — system layers and other sequence diagrams

@@ -217,3 +217,17 @@ def test_panel_recommendation_engine(tmp_path) -> None:
     )
     assert recommendations
     assert recommendations[0].strategy_id in metadata.strategy_ids
+
+
+def test_filter_panel_rows_handles_int_security_ids() -> None:
+    from app.services.strategy_selector_service import StrategySelectorService
+
+    frame = pd.DataFrame(
+        {
+            "source_security_id": [25, 25, 157],
+            "return_1d": [0.01, 0.02, 0.03],
+        }
+    )
+    filtered = StrategySelectorService._filter_panel_rows(frame, "25")
+    assert len(filtered) == 2
+    assert set(filtered["source_security_id"].tolist()) == {25}

@@ -365,7 +365,7 @@ PYTHONPATH=. python3 -m app.cli recommend-strategy \
   --security-id 25 --timeframe MIN_5
 ```
 
-See [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md) for architecture and pooled universe training.
+See [STRATEGY_SELECTOR.md](STRATEGY_SELECTOR.md) for architecture and pooled universe training. Full backtest logic and sequence diagrams: [BACKTESTING.md](BACKTESTING.md).
 
 ---
 

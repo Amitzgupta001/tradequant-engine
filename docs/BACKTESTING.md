@@ -28,6 +28,8 @@ BacktestResult (trades, equity curve, metrics)
 
 Paper trading reuses the same execution rules via `PaperInstrumentEngine` — see [LIVE_TRADING.md](LIVE_TRADING.md) and [PAPER_TRADING.md](PAPER_TRADING.md).
 
+> **Nifty 50 results:** See [NIFTY50_BACKTEST_REPORT.md](NIFTY50_BACKTEST_REPORT.md) for top/bottom 10 charts, ML proof, and equity curves. Regenerate with `python3 scripts/generate_nifty50_backtest_report.py`.
+
 ---
 
 ## Shared simulation core
